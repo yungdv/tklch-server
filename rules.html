@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила — TKLCH Vanilla</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-rules">
+
+<!-- ===== NAVBAR (копия) ===== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="brand">
+      <span class="brand__logo"><img src="assets/logo.png" alt="TKLCH"></span>
+      <span class="brand__name">TKLCH<b>.</b></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="index.html#about">О сервере</a>
+      <a href="index.html#gallery">Галерея</a>
+      <a href="index.html#join">Как начать</a>
+      <a href="rules.html" class="active">Правила</a>
+      <a href="index.html#discord">Discord</a>
+    </nav>
+    <div class="nav__right">
+      <a href="index.html#join" class="mc-btn mc-btn--sm">Начать играть</a>
+      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== RULES HERO ===== -->
+<section class="rules-hero">
+  <div class="wrap">
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      На главную
+    </a>
+    <h1 class="rules-hero__title">Правила сервера</h1>
+    <p class="rules-hero__lead">Коротко и по делу. Незнание правил не освобождает от банхаммера. В игре полный список — по команде <code>/rules</code>.</p>
+    <div class="rules-cmd">
+      <span>введи в чате</span>
+      <code>/rules</code>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RULES LIST ===== -->
+<section class="section rules-section">
+  <div class="wrap">
+    <div class="rules-grid">
+
+      <!-- 🔴 ЗАМЕНИ ПУНКТЫ НА СВОИ НАСТОЯЩИЕ ПРАВИЛА -->
+      <article class="rule reveal">
+        <span class="rule__n">01</span>
+        <h3>Общие положения</h3>
+        <ul>
+          <li>Играя на сервере, ты соглашаешься со всеми пунктами ниже.</li>
+          <li>Администрация оставляет за собой право дополнять правила.</li>
+          <li>Общение уважительное — без оскорблений, расизма и политики.</li>
+        </ul>
+      </article>
+
+      <article class="rule reveal">
+        <span class="rule__n">02</span>
+        <h3>PvE и поведение</h3>
+        <ul>
+          <li>Сервер строго PvE: убийство игроков и гриферство запрещены.</li>
+          <li>Не ломай и не воруй чужое без разрешения владельца.</li>
+          <li>Спорные ситуации решаем через Discord, а не кулаками.</li>
+        </ul>
+      </article>
+
+      <article class="rule reveal">
+        <span class="rule__n">03</span>
+        <h3>Голосовой чат</h3>
+        <ul>
+          <li>Мод Simple Voice Chat обязателен для всех игроков.</li>
+          <li>Не кричи в микрофон, не включай музыку без спроса.</li>
+          <li>Саундборды и помехи соседям — повод для мута.</li>
+        </ul>
+      </article>
+
+      <article class="rule reveal">
+        <span class="rule__n">04</span>
+        <h3>Вайтлист и вход</h3>
+        <ul>
+          <li>Вход только по whitelist — подай ник в Telegram.</li>
+          <li>Один игрок — один основной аккаунт на сервере.</li>
+          <li>Передача аккаунта третьим лицам запрещена.</li>
+        </ul>
+      </article>
+
+      <article class="rule reveal">
+        <span class="rule__n">05</span>
+        <h3>Постройки и территория</h3>
+        <ul>
+          <li>Не строй вплотную к чужим базам без согласия.</li>
+          <li>Лагомашины и огромные фермы без согласования — снос.</li>
+          <li>Убирай за собой: ямы, столбы, мусор на спавне.</li>
+        </ul>
+      </article>
+
+      <article class="rule reveal">
+        <span class="rule__n">06</span>
+        <h3>Читы и наказания</h3>
+        <ul>
+          <li>Любые читы, дюпы и эксплойты = перманентный бан.</li>
+          <li>За нарушения — предупреждение, мут, бан по решению админа.</li>
+          <li>Апелляции принимаем в Discord в тикетах.</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER (копия) ===== -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <a href="index.html" class="brand">
+      <span class="brand__logo"><img src="assets/logo.png" alt="TKLCH"></span>
+      <span class="brand__name">TKLCH<b>.</b></span>
+    </a>
+    <p class="footer__ip">IP: <b>tklch.minecraft.surf</b>
+    <p class="footer__copy">© 2024–2026 TKLCH Project. Не является официальным продуктом Mojang Studios.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+  <span>IP скопирован!</span>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
