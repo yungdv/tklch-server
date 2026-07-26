@@ -15,7 +15,6 @@
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <header class="nav" id="nav">
   <div class="nav__inner">
     <a href="index.html" class="brand">
@@ -40,7 +39,6 @@
   </div>
 </header>
 
-<!-- ===== HERO ===== -->
 <section class="hero" id="top">
   <div class="hero__bg"></div>
   <div class="hero__overlay"></div>
@@ -49,13 +47,11 @@
   </div>
 
   <div class="hero__inner">
-    <!-- LEFT -->
     <div class="hero__copy">
       <span class="pill"><span class="dot"></span> Версия 1.21.11 · Vanilla+ · PvE</span>
       <h1 class="hero__title">Ванильное<br>выживание <span class="grad">Minecraft</span></h1>
       <p class="hero__lead">Уютный сервер без доната и гриферства: голосовой чат, крутые постройки и дружное комьюнити. Заходи, строй, живи.</p>
 
-      <!-- live stats (как у atisot) -->
       <div class="stats">
         <div class="stat">
           <span class="stat__num" id="playersOnline">—</span>
@@ -70,7 +66,6 @@
 
         <div class="online-names" id="onlineNames"></div>
 
-      <!-- IP bar + MC copy button -->
       <div class="ip-bar">
         <code id="ipText">tklch.xyz</code>
         <button class="mc-btn" id="copyBtn">
@@ -91,7 +86,6 @@
       </div>
     </div>
 
-    <!-- RIGHT: маскот-полароид -->
     <div class="hero__art">
       <div class="polaroid">
         <div class="polaroid__photo">
@@ -110,7 +104,6 @@
   </a>
 </section>
 
-<!-- ===== SERVER CARD (заменяет простыню модов) ===== -->
 <section class="section" id="about">
   <div class="wrap">
     <div class="server-card reveal">
@@ -140,7 +133,6 @@
       </div>
     </div>
 
-    <!-- преимущества -->
     <div class="features">
       <article class="feature reveal">
         <span class="feature__ic">
@@ -167,7 +159,6 @@
   </div>
 </section>
 
-<!-- ===== GALLERY (bento) ===== -->
 <section class="section" id="gallery">
   <div class="wrap">
     <div class="head reveal">
@@ -181,7 +172,7 @@
       </figure>
       <figure class="bento__item reveal" data-img="assets/screen1.png">
         <img src="assets/screen1.png" alt="Футуристическая база">
-        <figcaption><b>Неоновая база</b><span>постройка игрока</span></figcaption>
+        <figcaption><b>Гонка на лодках</b><span>постройка игрока</span></figcaption>
       </figure>
       <figure class="bento__item reveal" data-img="assets/screen2.png">
         <img src="assets/screen2.png" alt="Вид с крыши">
@@ -195,7 +186,6 @@
   </div>
 </section>
 
-<!-- ===== HOW TO JOIN (timeline) ===== -->
 <section class="section" id="join">
   <div class="wrap">
     <div class="head reveal">
@@ -229,7 +219,6 @@
       </article>
     </div>
 
-    <!-- тизер правил -->
     <a href="rules.html" class="rules-teaser reveal">
       <span class="rules-teaser__ic">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
@@ -242,7 +231,6 @@
   </div>
 </section>
 
-<!-- ===== TWITCH ===== -->
 <section class="section" id="twitch">
   <div class="wrap">
     <div class="head reveal">
@@ -251,7 +239,6 @@
     </div>
 
     <div class="twitch reveal" id="twitchCard">
-      <!-- сюда JS нарисует либо LIVE-обложку, либо offline-заглушку -->
       <div class="twitch__loading">
         <span class="spinner"></span> проверяю эфир…
       </div>
@@ -259,7 +246,6 @@
   </div>
 </section>
 
-<!-- модалка с плеером Twitch -->
 <div class="twitch-modal" id="twitchModal" aria-hidden="true">
   <div class="twitch-modal__box">
     <button class="twitch-modal__close" id="twitchModalClose" aria-label="Закрыть">
@@ -269,7 +255,6 @@
   </div>
 </div>
 
-<!-- ===== DISCORD ===== -->
 <section class="section" id="discord">
   <div class="wrap">
     <div class="discord reveal">
@@ -278,7 +263,7 @@
         <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5a18 18 0 0 1 4.3 1.4 16.6 16.6 0 0 0-14.8 0A18 18 0 0 1 8.9 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.5 9 .1 13.6.3 18.1a19.9 19.9 0 0 0 6 3l.8-1.3a13 13 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.8 0l.5.4a13 13 0 0 1-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.3-5.2-.5-9.8-3.4-13.7ZM8.5 15.3c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Zm7 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>
       </span>
       <h2>Заходи в наш Discord</h2>
-      <p>Анонсы, помощь с установкой, поиск пати и общение 24/7. Там же сидит стример <b>tklch_</b>.</p>
+      <p>Анонсы, помощь с установкой, поиск пати и общение.</p>
       <a class="mc-btn mc-btn--big mc-btn--discord" href="https://discord.gg/ajmHTSqC7" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5a18 18 0 0 1 4.3 1.4 16.6 16.6 0 0 0-14.8 0A18 18 0 0 1 8.9 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.5 9 .1 13.6.3 18.1a19.9 19.9 0 0 0 6 3l.8-1.3a13 13 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.8 0l.5.4a13 13 0 0 1-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.3-5.2-.5-9.8-3.4-13.7Z"/></svg>
         Присоединиться
@@ -287,19 +272,16 @@
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="wrap footer__inner">
     <a href="index.html" class="brand">
       <span class="brand__logo"><img src="assets/logo.png" alt="TKLCH"></span>
       <span class="brand__name">TKLCH<b>.</b></span>
     </a>
-    <p class="footer__ip">IP: <b>tklch.xyz</b>
     <p class="footer__copy">©2026 credits: yungdv. Не является официальным продуктом Mojang Studios.</p>
   </div>
 </footer>
 
-<!-- lightbox -->
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightbox__close" id="lbClose" aria-label="Закрыть">
     <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -307,7 +289,6 @@
   <img src="" alt="" id="lbImg">
 </div>
 
-<!-- toast -->
 <div class="toast" id="toast">
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
   <span>IP скопирован!</span>
