@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TKLCH Vanilla</title>
-<meta name="description" content="TKLCH Vanilla — уютный PvE сервер Minecraft 1.21.1 с голосовым чатом и дружным комьюнити.">
+<meta name="description" content="TKLCH Vanilla — уютный PvE сервер Minecraft 1.21.11 с голосовым чатом и дружным комьюнити.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TKLCH Vanilla — ванильный Minecraft сервер 1.21.11">
+<meta property="og:description" content="PvE-сервер с голосовым чатом и дружным комьюнити. Без доната и гриферства.">
 <meta property="og:image" content="assets/spawn1.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/logo.png">
@@ -21,7 +24,6 @@
       <span class="brand__logo"><img src="assets/logo.png" alt="TKLCH"></span>
       <span class="brand__name">TKLCH<b>.</b></span>
     </a>
-
     <nav class="nav__links" id="navLinks">
       <a href="#about">О сервере</a>
       <a href="#gallery">Галерея</a>
@@ -29,7 +31,6 @@
       <a href="rules.html">Правила</a>
       <a href="#discord">Discord</a>
     </nav>
-
     <div class="nav__right">
       <a href="#join" class="mc-btn mc-btn--sm">Начать играть</a>
       <button class="burger" id="burger" aria-label="Меню">
@@ -43,7 +44,7 @@
   <div class="hero__bg"></div>
   <div class="hero__overlay"></div>
   <div class="hero__sparks" aria-hidden="true">
-    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
   </div>
 
   <div class="hero__inner">
@@ -55,7 +56,7 @@
       <div class="stats">
         <div class="stat">
           <span class="stat__num" id="playersOnline">—</span>
-          <span class="stat__label"><span class="dot dot--green"></span> онлайн сейчас</span>
+          <span class="stat__label"><span class="dot dot--check"></span> онлайн сейчас</span>
         </div>
         <div class="stat__div"></div>
         <div class="stat">
@@ -64,10 +65,10 @@
         </div>
       </div>
 
-        <div class="online-names" id="onlineNames"></div>
+      <div class="online-names" id="onlineNames"></div>
 
       <div class="ip-bar">
-        <code id="ipText">tklch.xyz</code>
+        <code id="ipText" title="Нажми, чтобы скопировать">tklch.xyz</code>
         <button class="mc-btn" id="copyBtn">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Скопировать IP
@@ -82,6 +83,10 @@
         <a class="soc soc--tg" href="https://t.me/tklch1/574" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.4l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.7 1.1Z"/></svg>
           Telegram
+        </a>
+        <a class="soc soc--twitch" href="https://twitch.tv/tklch_" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v3l3-3h4l5-5V3H4Zm15 11-3 3h-4l-3 3v-3H5V5h14v9ZM15 7h-2v5h2V7Zm-5 0H8v5h2V7Z"/></svg>
+          Twitch
         </a>
       </div>
     </div>
@@ -104,22 +109,33 @@
   </a>
 </section>
 
+<div class="ticker">
+  <div class="ticker__track" id="tickerTrack"></div>
+</div>
+
 <section class="section" id="about">
   <div class="wrap">
     <div class="server-card reveal">
       <div class="server-card__info">
         <span class="chip-row">
-          <span class="tag">1.21.1</span>
+          <span class="tag">1.21.11</span>
           <span class="tag tag--violet">Fabric</span>
           <span class="tag tag--blue">PvE</span>
         </span>
-        <h2>TKLCH Vanilla</h2>
+        <div class="server-id">
+          <img class="server-id__icon" id="serverIcon" src="" alt="Иконка сервера" hidden>
+          <div>
+            <h2>TKLCH Vanilla</h2>
+            <p class="server-id__motd" id="serverMotd"></p>
+          </div>
+        </div>
         <p>Чистое ванильное выживание с набором клиентских модов на комфорт: оптимизация, шейдеры, эмоции и обязательный голосовой чат. Никакого pay‑to‑win — только твои руки и голова.</p>
         <div class="mod-chips">
           <span>Sodium</span><span>Lithium</span><span>Iris Shaders</span>
           <span>Simple Voice Chat</span><span>Emotecraft</span><span>Xaero's Minimap</span>
           <span>LambDynamicLights</span><span>+ ещё 40 модов</span>
         </div>
+        <div class="wipe-counter"><b id="wipeDays">—</b> дней с последнего вайпа</div>
       </div>
       <div class="server-card__actions">
         <a href="https://drive.google.com/drive/folders/1QdErwr2cvwE86DZERd6zlfcnde2Ei71H?usp=sharing" class="mc-btn mc-btn--big" id="downloadBtn" target="_blank" rel="noopener">
@@ -167,19 +183,19 @@
     </div>
     <div class="bento">
       <figure class="bento__item bento__item--big reveal" data-img="assets/spawn1.png">
-        <img src="assets/spawn1.png" alt="Спавн на закате">
+        <img src="assets/spawn1.png" alt="Спавн на закате" loading="lazy" decoding="async">
         <figcaption><b>Спавн на закате</b><span>маяк, площадь и вишнёвые рощи</span></figcaption>
       </figure>
       <figure class="bento__item reveal" data-img="assets/screen1.png">
-        <img src="assets/screen1.png" alt="Футуристическая база">
-        <figcaption><b>Гонка на лодках</b><span>постройка игрока</span></figcaption>
+        <img src="assets/screen1.png" alt="Гонка на лодках" loading="lazy" decoding="async">
+        <figcaption><b>Гонка на лодках</b><span>гоночная трасса</span></figcaption>
       </figure>
       <figure class="bento__item reveal" data-img="assets/screen2.png">
-        <img src="assets/screen2.png" alt="Вид с крыши">
+        <img src="assets/screen2.png" alt="Вид с высоты" loading="lazy" decoding="async">
         <figcaption><b>Вид с высоты</b><span>панорама района</span></figcaption>
       </figure>
       <figure class="bento__item reveal" data-img="assets/screen3.png">
-        <img src="assets/screen3.png" alt="Статуя с факелами">
+        <img src="assets/screen3.png" alt="Монумент" loading="lazy" decoding="async">
         <figcaption><b>Монумент</b><span>статуя у спавна</span></figcaption>
       </figure>
     </div>
@@ -203,8 +219,8 @@
       </article>
       <article class="step reveal">
         <span class="step__n">02</span>
-        <h3>Поставь Prism Launcher</h3>
-        <p>Бесплатный открытый лаунчер. Создай аккаунт Microsoft или играй offline.</p>
+        <h3>Поставь любой лаунчер</h3>
+        <p>Подойдёт любой: Prism Launcher, TLauncher, официальный и другие. Создай аккаунт Microsoft или играй offline.</p>
         <a class="step__link" href="https://prismlauncher.org/download/" target="_blank" rel="noopener">Скачать лаунчер
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -212,7 +228,7 @@
       <article class="step reveal">
         <span class="step__n">03</span>
         <h3>Загрузи сборку</h3>
-        <p>Скачай архив с Google Drive и перетащи его в Prism Launcher. Всё уже настроено.</p>
+        <p>Скачай архив с Google Drive и перетащи его в лаунчер. Всё уже настроено.</p>
         <a class="step__link step__link--accent" href="https://drive.google.com/drive/folders/1QdErwr2cvwE86DZERd6zlfcnde2Ei71H?usp=sharing" id="downloadBtn2" target="_blank" rel="noopener">Скачать сборку
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
         </a>
@@ -237,7 +253,6 @@
       <h2 class="head__title">Стрим проекта</h2>
       <p class="head__sub">Загляни — вдруг прямо сейчас в эфире.</p>
     </div>
-
     <div class="twitch reveal" id="twitchCard">
       <div class="twitch__loading">
         <span class="spinner"></span> проверяю эфир…
@@ -255,6 +270,41 @@
   </div>
 </div>
 
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="head reveal">
+      <h2 class="head__title">Частые вопросы</h2>
+      <p class="head__sub">Коротко о том, что спрашивают чаще всего. Не нашёл ответ — пиши в Discord.</p>
+    </div>
+    <div class="faq reveal">
+      <div class="faq__item">
+        <button class="faq__q" type="button">Нужен ли VPN, чтобы играть?<span class="faq__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq__a"><p>Нет. VPN может понадобиться только один раз — при первой загрузке сборки с Google Drive. В самой игре он не нужен: сервер и голосовой чат работают напрямую.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button">Какой лаунчер использовать?<span class="faq__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq__a"><p>Любой — Prism Launcher, TLauncher, официальный и прочие. Наша сборка уже собрана: скачай архив и импортируй его в лаунчер, все моды и настройки уже внутри.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button">Зачем whitelist и как туда попасть?<span class="faq__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq__a"><p>Сервер приватный, чтобы не было гриферов и случайных людей. Напиши свой ник в комментариях под постом в Telegram — и тебя добавят в список.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button">Голосовой чат правда обязателен?<span class="faq__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq__a"><p>Да, мод Simple Voice Chat нужен всем — на нём держится всё общение на сервере. Без него играть будет просто неудобно, поэтому он входит в сборку по умолчанию.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button">Тут точно без доната?<span class="faq__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq__a"><p>Точно. Никакого pay‑to‑win и привилегий, дающих преимущество в игре. Всё добывается руками в честном ванильном выживании.</p></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q" type="button">Какая версия и нужны ли свои моды?<span class="faq__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq__a"><p>Minecraft 1.21.11 на Fabric. Свои моды ставить не надо — используй нашу сборку, там уже подобраны оптимизация, шейдеры, эмоции и войс‑чат, и всё настроено под сервер.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="discord">
   <div class="wrap">
     <div class="discord reveal">
@@ -263,7 +313,7 @@
         <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5a18 18 0 0 1 4.3 1.4 16.6 16.6 0 0 0-14.8 0A18 18 0 0 1 8.9 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.5 9 .1 13.6.3 18.1a19.9 19.9 0 0 0 6 3l.8-1.3a13 13 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.8 0l.5.4a13 13 0 0 1-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.3-5.2-.5-9.8-3.4-13.7ZM8.5 15.3c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Zm7 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>
       </span>
       <h2>Заходи в наш Discord</h2>
-      <p>Анонсы, помощь с установкой, поиск пати и общение.</p>
+      <p>Анонсы, помощь с установкой, поиск пати и общение 24/7. Там же сидит стример <b>tklch_</b>.</p>
       <a class="mc-btn mc-btn--big mc-btn--discord" href="https://discord.gg/ajmHTSqC7" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5a18 18 0 0 1 4.3 1.4 16.6 16.6 0 0 0-14.8 0A18 18 0 0 1 8.9 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.5 9 .1 13.6.3 18.1a19.9 19.9 0 0 0 6 3l.8-1.3a13 13 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.8 0l.5.4a13 13 0 0 1-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.3-5.2-.5-9.8-3.4-13.7Z"/></svg>
         Присоединиться
@@ -273,14 +323,50 @@
 </section>
 
 <footer class="footer">
-  <div class="wrap footer__inner">
-    <a href="index.html" class="brand">
-      <span class="brand__logo"><img src="assets/logo.png" alt="TKLCH"></span>
-      <span class="brand__name">TKLCH<b>.</b></span>
-    </a>
-    <p class="footer__copy">©2026 credits: yungdv. Не является официальным продуктом Mojang Studios.</p>
+  <div class="wrap footer__top">
+    <div class="footer__brand">
+      <a href="index.html" class="brand">
+        <span class="brand__logo"><img src="assets/logo.png" alt="TKLCH"></span>
+        <span class="brand__name">TKLCH<b>.</b></span>
+      </a>
+      <p>Уютный ванильный PvE‑сервер Minecraft 1.21.11 с голосовым чатом и дружным комьюнити. Без доната и гриферства.</p>
+      <div class="footer__socials">
+        <a class="footer__soc" href="https://discord.gg/ajmHTSqC7" target="_blank" rel="noopener" aria-label="Discord">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.3.5a18 18 0 0 1 4.3 1.4 16.6 16.6 0 0 0-14.8 0A18 18 0 0 1 8.9 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.5 9 .1 13.6.3 18.1a19.9 19.9 0 0 0 6 3l.8-1.3a13 13 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.8 0l.5.4a13 13 0 0 1-2 1l.8 1.3a19.9 19.9 0 0 0 6-3c.3-5.2-.5-9.8-3.4-13.7Z"/></svg>
+        </a>
+        <a class="footer__soc" href="https://t.me/tklch1/574" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.4l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.7 1.1Z"/></svg>
+        </a>
+        <a class="footer__soc" href="https://twitch.tv/tklch_" target="_blank" rel="noopener" aria-label="Twitch">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v3l3-3h4l5-5V3H4Zm15 11-3 3h-4l-3 3v-3H5V5h14v9ZM15 7h-2v5h2V7Zm-5 0H8v5h2V7Z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <h4>Навигация</h4>
+      <a href="#about">О сервере</a>
+      <a href="#gallery">Галерея</a>
+      <a href="#join">Как начать</a>
+      <a href="#faq">Вопросы</a>
+      <a href="rules.html">Правила</a>
+    </div>
+    <div class="footer__col">
+      <h4>Сообщество</h4>
+      <a href="https://discord.gg/ajmHTSqC7" target="_blank" rel="noopener">Discord</a>
+      <a href="https://t.me/tklch1/574" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://twitch.tv/tklch_" target="_blank" rel="noopener">Twitch</a>
+      <a href="https://drive.google.com/drive/folders/1QdErwr2cvwE86DZERd6zlfcnde2Ei71H?usp=sharing" target="_blank" rel="noopener">Скачать сборку</a>
+    </div>
+  </div>
+  <div class="wrap footer__bottom">
+    <p class="footer__ip">IP: <b>tklch.xyz</b></p>
+    <p class="footer__copy">© 2026 credits: yungdv. Не является официальным продуктом Mojang Studios.</p>
   </div>
 </footer>
+
+<button class="to-top" id="toTop" aria-label="Наверх">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+</button>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightbox__close" id="lbClose" aria-label="Закрыть">
