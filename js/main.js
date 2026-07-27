@@ -122,8 +122,10 @@
       }
       if (iconEl && d.icon) { iconEl.src = d.icon; iconEl.hidden = false; }
       if (motdEl) {
-        const ml = d.motd && (d.motd.clean || d.motd.html || []);
-        motdEl.textContent = (ml && ml.length) ? ml.join('\n') : '';
+        const ml = d.motd && (d.motd.clean || d.motd.html || '');
+        motdEl.textContent = typeof ml === 'string'
+          ? ml.split('\n').map(s => s.trim()).filter(Boolean).join('\n')
+          : (Array.isArray(ml) ? ml.join('\n') : '');
       }
     } else if (!hadSuccess) {
       setDot('dot--check');
