@@ -7,6 +7,13 @@
   const WIPE_DATE = '2026-06-26';
   const NAMES_LIMIT = 24;
 
+  function basePath() {
+    return location.pathname.replace(/\/index\.html$/, '/');
+  }
+  if (location.pathname.indexOf('index.html') !== -1) {
+    try { history.replaceState(null, '', basePath() + location.search + location.hash); } catch (e) {}
+  }
+
   const nav = document.getElementById('nav');
   if (nav) {
     const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
@@ -149,12 +156,16 @@
   const TICKER = [
     { who: 'Danka', what: 'построил маяк на спавне' },
     { who: 'karma777', what: 'нашёл алмазы на Y = -58' },
+    { who: 'tklch', what: 'сгорел на стриме' },
+    { who: 'GROMKLED', what: 'летает на элитрах' },
     { who: 'opiuuuuuuuuuuum', what: 'приручил волка' },
     { who: 'ZeroTwo_Ezik', what: 'открыл магазин у площади' },
     { who: 'lavina444', what: 'посадила вишнёвую рощу' },
     { who: 'BitterSweet', what: 'проложил дорогу к шахте' },
-    { who: '5Kroc_', what: 'достроил неоновую базу' },
-    { who: 'tareika200', what: 'поймал редкую рыбу' }
+    { who: '5Kroc_', what: 'достроил крутую базу' },
+    { who: 'tareika200', what: 'поймал редкую рыбу' },
+    { who: 'nTEH4Ik', what: 'построил нереальную ферму' },
+    { who: 'GROMKLED', what: 'летает на элитрах' }
   ];
   const tickerTrack = document.getElementById('tickerTrack');
   if (tickerTrack) {
@@ -188,28 +199,54 @@
     });
   }
 
-  const CONFETTI = ['#8b5cf6', '#a78bfa', '#38bdf8', '#34d399', '#ffffff'];
-  function burst(x, y) {
-    for (let i = 0; i < 26; i++) {
-      const p = document.createElement('span');
-      const size = 6 + Math.random() * 8;
-      p.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;width:' + size + 'px;height:' + size +
-        'px;background:' + CONFETTI[i % CONFETTI.length] + ';border-radius:2px;z-index:400;pointer-events:none;' +
-        'box-shadow:0 0 8px ' + CONFETTI[i % CONFETTI.length] + ';';
-      document.body.appendChild(p);
-      const ang = Math.random() * Math.PI * 2;
-      const dist = 70 + Math.random() * 130;
-      const dx = Math.cos(ang) * dist;
-      const dy = Math.sin(ang) * dist - 50;
-      const anim = p.animate([
-        { transform: 'translate(-50%,-50%) rotate(0deg)', opacity: 1 },
-        { transform: 'translate(calc(-50% + ' + dx + 'px),calc(-50% + ' + dy + 'px)) rotate(' + (Math.random() * 720 - 360) + 'deg)', opacity: 0 }
-      ], { duration: 700 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.3,1)' });
-      anim.onfinish = () => p.remove();
-    }
+  function ripple(x, y) {
+    const ring = document.createElement('span');
+    ring.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;width:18px;height:18px;' +
+      'border:2px solid rgba(167,139,250,.9);border-radius:50%;z-index:400;pointer-events:none;' +
+      'transform:translate(-50%,-50%);box-shadow:0 0 14px rgba(139,92,246,.5);';
+    document.body.appendChild(ring);
+    const anim = ring.animate([
+      { transform: 'translate(-50%,-50%) scale(1)', opacity: .9 },
+      { transform: 'translate(-50%,-50%) scale(9)', opacity: 0 }
+    ], { duration: 600, easing: 'cubic-bezier(.16,1,.3,1)' });
+    anim.onfinish = () => ring.remove();
   }
+
+  function pop(brandEl) {
+    const logo = brandEl.querySelector('.brand__logo') || brandEl;
+    logo.animate([
+      { transform: 'scale(1) rotate(0deg)' },
+      { transform: 'scale(1.18) rotate(-6deg)' },
+      { transform: 'scale(1) rotate(0deg)' }
+    ], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+  }
+
+  const onRules = document.body.classList.contains('page-rules');
   document.querySelectorAll('.brand').forEach(b => {
-    b.addEventListener('click', (e) => { burst(e.clientX, e.clientY); });
+    b.addEventListener('click', (e) => {
+      e.preventDefault();
+      ripple(e.clientX, e.clientY);
+      pop(b);
+      if (onRules) {
+        setTimeout(() => { window.location.href = 'index.html'; }, 220);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        try { history.replaceState(null, '', basePath() + location.search); } catch (err) {}
+      }
+    });
+  });
+
+  document.querySelectorAll('a[href^="#"]:not(.brand)').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const y = target.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      try { history.replaceState(null, '', basePath() + location.search); } catch (err) {}
+    });
   });
 
   const spyLinks = Array.from(document.querySelectorAll('.nav__links a[href^="#"]'));
