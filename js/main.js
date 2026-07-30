@@ -41,9 +41,27 @@
     showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
   }
 
+  function showMcPopup(anchor, text) {
+    if (!anchor) return;
+    const r = anchor.getBoundingClientRect();
+    const p = document.createElement('span');
+    p.className = 'mc-pop';
+    p.textContent = text;
+    p.style.left = (r.left + r.width / 2) + 'px';
+    p.style.top = (r.top - 6) + 'px';
+    document.body.appendChild(p);
+    const a = p.animate([
+      { transform: 'translate(-50%,-100%) scale(.8)', opacity: 0 },
+      { transform: 'translate(-50%,-135%) scale(1)', opacity: 1, offset: .25 },
+      { transform: 'translate(-50%,-210%) scale(1)', opacity: 0 }
+    ], { duration: 1100, easing: 'cubic-bezier(.16,1,.3,1)' });
+    a.onfinish = () => p.remove();
+  }
+
   function copyIP(e) {
     const btn = e ? e.currentTarget : null;
-    const done = () => { showToast(); flashBtn(btn); };
+    const anchor = (btn && btn.tagName !== 'CODE') ? btn : (document.getElementById('ipText') || btn);
+    const done = () => { flashBtn(btn); showMcPopup(anchor, '+1 IP ✦'); };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(SERVER_IP).then(done).catch(fallbackCopy);
     } else { fallbackCopy(); }
@@ -59,7 +77,7 @@
   function flashBtn(btn) {
     if (!btn || btn.tagName === 'CODE') return;
     const orig = btn.innerHTML;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Скопировано!';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> В инвентаре!';
     btn.classList.add('copied');
     clearTimeout(btn._t);
     btn._t = setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1800);
@@ -128,8 +146,9 @@
         const all = raw.map(x => typeof x === 'string' ? x : (x.name_clean || x.name || '')).filter(Boolean);
         const shown = all.slice(0, NAMES_LIMIT);
         const extra = all.length - shown.length;
-        namesEl.innerHTML = shown.map(n => '<span>' + esc(n) + '</span>').join('')
-          + (extra > 0 ? '<span class="online-names__more">+' + extra + '</span>' : '');
+        namesEl.innerHTML = shown.map(n =>
+          '<span><img src="https://mc-heads.net/avatar/' + encodeURIComponent(n) + '/18" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">' + esc(n) + '</span>'
+        ).join('') + (extra > 0 ? '<span class="online-names__more">+' + extra + '</span>' : '');
       }
       if (iconEl && d.icon) { iconEl.src = d.icon; iconEl.hidden = false; }
       if (motdEl) {
@@ -157,15 +176,23 @@
     animateNumber(wipeEl, days);
   }
 
-  const TICKER = [
-    { who: 'Danka', what: 'построил маяк на спавне' },
+const TICKER = [
+    { who: 'tklch', what: 'опять сгорел на стриме' },
+    { who: 'Danka', what: 'жестко завозит(нет)' },
     { who: 'karma777', what: 'нашёл алмазы на Y = -58' },
     { who: 'opiuuuuuuuuuuum', what: 'приручил волка' },
     { who: 'ZeroTwo_Ezik', what: 'открыл магазин у площади' },
-    { who: 'lavina444', what: 'посадила вишнёвую рощу' },
+    { who: 'lavina444', what: 'посадил вишнёвую рощу' },
     { who: 'BitterSweet', what: 'проложил дорогу к шахте' },
-    { who: '5Kroc_', what: 'достроил неоновую базу' },
-    { who: 'tareika200', what: 'поймал редкую рыбу' }
+    { who: '5Kroc_', what: 'достроил новую базу' },
+    { who: 'tareika200', what: 'поймал редкую рыбу' },
+    { who: 'GROMKLED', what: 'летает на элитрах' },
+    { who: 'tareika200', what: 'поймал редкую рыбу' },
+    { who: 'yanomenko', what: 'фармит данжи' },
+    { who: 'justaa22', what: 'джуста' },
+    { who: 'mianmi', what: 'кошмарит сервер' },
+    { who: 'topkinf', what: 'проводит ивент' },
+    { who: 'nten4ik', what: 'построил ферму' }
   ];
   const tickerTrack = document.getElementById('tickerTrack');
   if (tickerTrack) {
@@ -235,6 +262,30 @@
       }
     });
   });
+
+  const polaroid = document.querySelector('.polaroid');
+  if (polaroid) {
+    polaroid.style.cursor = 'pointer';
+    polaroid.addEventListener('click', (e) => {
+      polaroid.animate([
+        { transform: 'rotate(-4deg) scale(1)' },
+        { transform: 'rotate(3deg) scale(1.08) translateY(-12px)' },
+        { transform: 'rotate(-4deg) scale(1)' }
+      ], { duration: 460, easing: 'cubic-bezier(.16,1,.3,1)' });
+      const h = document.createElement('span');
+      h.className = 'mascot-heart';
+      h.textContent = '♥';
+      h.style.left = e.clientX + 'px';
+      h.style.top = e.clientY + 'px';
+      document.body.appendChild(h);
+      const a = h.animate([
+        { transform: 'translate(-50%,-50%) scale(.5)', opacity: 0 },
+        { transform: 'translate(-50%,-130%) scale(1.3)', opacity: 1, offset: .3 },
+        { transform: 'translate(-50%,-280%) scale(1)', opacity: 0 }
+      ], { duration: 950, easing: 'cubic-bezier(.16,1,.3,1)' });
+      a.onfinish = () => h.remove();
+    });
+  }
 
   document.querySelectorAll('a[href^="#"]:not(.brand)').forEach(a => {
     a.addEventListener('click', (e) => {
@@ -358,8 +409,16 @@
       '</div>';
   }
 
-  function checkTwitch() {
+  async function checkTwitch() {
     if (!twitchCard) return;
+    let live = null;
+    try {
+      const r = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://decapi.me/twitch/uptime/' + TWITCH_USER));
+      const txt = (await r.text()).trim();
+      if (txt) live = !/offline|not live|not found|unknown|error/i.test(txt);
+    } catch (e) { live = null; }
+    if (live === true) { renderLive(twitchPreviewURL(1280, 720)); return; }
+    if (live === false) { renderOffline(); return; }
     const img = new Image();
     img.onload = function () { renderLive(twitchPreviewURL(1280, 720)); };
     img.onerror = function () { renderOffline(); };
@@ -403,6 +462,8 @@
     const wc    = document.getElementById('wordCount');
     const nickField = document.getElementById('fNick');
     const nickAvatar = document.getElementById('nickAvatar');
+    const formLoadedAt = Date.now();
+
     if (nickField && nickAvatar) {
       const syncAvatar = () => {
         const v = nickField.value.trim();
@@ -437,15 +498,17 @@
       const agree  = document.getElementById('rulesAgree');
       const gotcha = document.getElementById('fGotcha');
 
+      if (gotcha && gotcha.value) { finish(); return; }
+      if (Date.now() - formLoadedAt < 2500) { finish(); return; }
+
       const nickOk  = /^[a-zA-Z0-9_]{3,16}$/.test(nick.value.trim());
-      const aboutOk = about.value.trim().length > 0;
+      const aboutOk = about.value.trim().length > 0 && about.value.trim().length <= 1000;
       const ageNum  = parseInt(age.value, 10);
       const ageOk   = !isNaN(ageNum) && ageNum >= 6 && ageNum <= 99;
       setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk);
 
       if (!nickOk || !aboutOk || !ageOk) { showErr('Проверь подсвеченные поля: ник как в игре, расскажи о себе, возраст числом.'); return; }
       if (!agree.checked) { showErr('Нужно подтвердить, что ты прочитал(а) правила.'); return; }
-      if (gotcha && gotcha.value) { finish(); return; }
 
       const data = {
         nick: nick.value.trim(),
@@ -466,7 +529,11 @@
           let j = null; try { j = await r.json(); } catch (_) {}
           if (!j || j.ok !== true) {
             const code = (j && (j.error || j.status)) || ('http' + r.status);
-            showErr('Не удалось отправить. Код: ' + code + ' — попробуй ещё раз или напиши в Discord.');
+            if (code === 'rate' || code === 'dup') {
+              showErr('С этого устройства уже отправляли недавно — подожди немного или напиши нам в TG.');
+            } else {
+              showErr('Не удалось отправить. Код: ' + code + ' — попробуй ещё раз или напиши в TG.');
+            }
             btn.disabled = false; btn.innerHTML = orig; return;
           }
         } else {
@@ -475,7 +542,7 @@
         rememberNick(data.nick);
         finish();
       } catch (err) {
-        showErr('Не удалось отправить (нет связи). Попробуй ещё раз или напиши в Discord.');
+        showErr('Не удалось отправить (нет связи). Попробуй ещё раз или напиши в TG.');
         btn.disabled = false; btn.innerHTML = orig;
       }
     });
