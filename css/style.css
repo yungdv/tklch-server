@@ -403,3 +403,61 @@
     .footer__bottom{flex-direction:column;align-items:flex-start}
     .to-top{right:16px;bottom:16px}
   }
+
+.page-appeal{background:radial-gradient(80% 50% at 50% -10%,rgba(139,92,246,.16),transparent 60%),var(--bg)}
+.appeal-hero{padding:140px 0 30px;text-align:center}
+.appeal-hero .back-link{margin-bottom:22px}
+.appeal-hero__title{font-family:'Unbounded';font-weight:800;font-size:clamp(32px,6vw,56px);letter-spacing:-1px;background:linear-gradient(120deg,#fff,var(--violet-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.appeal-hero__lead{color:var(--muted);font-size:17px;max-width:600px;margin:16px auto 0}
+.appeal-section{padding-top:24px}
+.appeal-card{max-width:640px;margin:0 auto;background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(255,255,255,.02));border:1px solid var(--border);border-radius:24px;padding:40px;backdrop-filter:blur(10px)}
+.appeal-form{display:flex;flex-direction:column;gap:20px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field__label{font-weight:600;font-size:14px;color:var(--text)}
+.field__label b{color:var(--violet-2)}
+.field input,.field textarea{font-family:'Inter',sans-serif;font-size:15px;color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:.2s;resize:vertical;min-height:54px}
+.field textarea{min-height:120px;line-height:1.6}
+.field input::placeholder,.field textarea::placeholder{color:#6b7088}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--violet-2);box-shadow:0 0 0 3px rgba(139,92,246,.18);background:rgba(0,0,0,.5)}
+.field__hint{font-size:12.5px;color:var(--muted)}
+.field--err input,.field--err textarea{border-color:#f87171;box-shadow:0 0 0 3px rgba(248,113,113,.15)}
+.field--err .field__hint{color:#fca5a5}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+.check{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--muted);cursor:pointer;line-height:1.5}
+.check input{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;margin-top:1px;border:1px solid var(--border);border-radius:6px;background:rgba(0,0,0,.35);cursor:pointer;position:relative;transition:.2s}
+.check input:checked{background:var(--violet);border-color:var(--violet)}
+.check input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.check a{color:var(--violet-2);text-decoration:underline}
+.check b{color:var(--violet-2)}
+.appeal-note{display:flex;align-items:flex-start;gap:11px;background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.22);border-radius:12px;padding:13px 16px;color:var(--muted);font-size:13.5px;line-height:1.5}
+.appeal-note svg{flex:none;color:var(--blue);margin-top:1px}
+.appeal-err{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#fca5a5;border-radius:12px;padding:12px 16px;font-size:14px}
+.appeal-submit{justify-content:center;width:100%;margin-top:4px}
+.appeal-submit[disabled]{opacity:.7;cursor:wait}
+.appeal-done{text-align:center;padding:14px 0}
+.appeal-done__ic{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;margin:0 auto 22px;color:#fff;background:linear-gradient(135deg,var(--green),#10b981);box-shadow:0 14px 40px rgba(52,211,153,.4)}
+.appeal-done h2{font-family:'Unbounded';font-weight:700;font-size:28px;margin-bottom:12px}
+.appeal-done p{color:var(--muted);max-width:440px;margin:0 auto 10px}
+.appeal-done__sub{font-size:14px}
+.appeal-done__btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+@media(max-width:560px){.appeal-card{padding:26px 20px}.field-row{grid-template-columns:1fr}.appeal-done__btns{flex-direction:column}.appeal-done__btns a{width:100%;justify-content:center}}
+.apply-btn{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:13px 24px;border-radius:12px;font-family:'Unbounded';font-weight:600;font-size:14px;color:#fff;text-decoration:none;background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(99,102,241,.14));border:1px solid rgba(139,92,246,.45);transition:.25s;box-shadow:0 0 0 rgba(139,92,246,0)}
+.apply-btn:hover{border-color:var(--violet-2);background:linear-gradient(135deg,rgba(139,92,246,.34),rgba(99,102,241,.22));box-shadow:0 8px 30px rgba(139,92,246,.3);transform:translateY(-2px)}
+.apply-btn svg{color:var(--violet-2)}
+.step__link--sub{display:inline-flex;margin-top:14px;font-size:13px;font-weight:500;color:var(--muted)}
+.step__link--sub:hover{color:var(--violet-2)}
+/* живая голова ника в форме */
+.nick-row{display:flex;align-items:center;gap:12px}
+.nick-row input{flex:1}
+.nick-avatar{width:48px;height:48px;border-radius:10px;flex:none;image-rendering:pixelated;background:rgba(255,255,255,.05);border:1px solid var(--border);object-fit:cover;display:none}
+.nick-avatar.show{display:block}
+/* контакты под формой */
+.appeal-contacts{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.22);border-radius:12px;padding:13px 16px;font-size:13.5px;color:var(--muted)}
+.appeal-contacts>span{margin-right:auto}
+.appeal-contacts a{display:inline-flex;align-items:center;gap:7px;color:var(--violet-2);font-weight:600;transition:.2s}
+.appeal-contacts a:hover{color:#fff}
+/* заметная кнопка заявки в hero */
+.apply-cta{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;max-width:480px;padding:15px 24px;border-radius:14px;font-family:'Unbounded';font-weight:700;font-size:15px;color:#fff;text-decoration:none;background:linear-gradient(180deg,#9b7bf5,#7c5cf0);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.28),0 10px 30px rgba(124,92,240,.45);transition:.2s}
+.apply-cta:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(0,0,0,.28),0 14px 38px rgba(124,92,240,.6)}
+@media(max-width:980px){.apply-cta{margin-left:auto;margin-right:auto}}

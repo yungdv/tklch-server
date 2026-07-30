@@ -7,6 +7,9 @@
   const WIPE_DATE = '2026-06-26';
   const NAMES_LIMIT = 24;
 
+  const SEND_MODE = 'telegram';
+  const WORKER_URL = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
+
   function basePath() {
     return location.pathname.replace(/\/index\.html$/, '/');
   }
@@ -75,15 +78,16 @@
   function animateNumber(el, to) {
     if (!el) return;
     to = parseInt(to, 10);
-    if (isNaN(to)) { el.textContent = '—'; return; }
-    const from = parseInt(el.textContent, 10) || 0;
+    if (isNaN(to) || to < 0) { el.textContent = (isNaN(to) ? '—' : to); return; }
+    const from = Math.max(0, parseInt(el.textContent, 10) || 0);
     if (from === to) { el.textContent = to; return; }
+    if (el._raf) cancelAnimationFrame(el._raf);
     const dur = 700, start = performance.now();
     (function tick(now) {
       const p = Math.min(1, (now - start) / dur);
       const e = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(from + (to - from) * e);
-      if (p < 1) requestAnimationFrame(tick);
+      el.textContent = Math.max(0, Math.round(from + (to - from) * e));
+      if (p < 1) { el._raf = requestAnimationFrame(tick); } else { el._raf = null; }
     })(start);
   }
 
@@ -156,16 +160,12 @@
   const TICKER = [
     { who: 'Danka', what: 'построил маяк на спавне' },
     { who: 'karma777', what: 'нашёл алмазы на Y = -58' },
-    { who: 'tklch', what: 'сгорел на стриме' },
-    { who: 'GROMKLED', what: 'летает на элитрах' },
     { who: 'opiuuuuuuuuuuum', what: 'приручил волка' },
     { who: 'ZeroTwo_Ezik', what: 'открыл магазин у площади' },
     { who: 'lavina444', what: 'посадила вишнёвую рощу' },
     { who: 'BitterSweet', what: 'проложил дорогу к шахте' },
-    { who: '5Kroc_', what: 'достроил крутую базу' },
-    { who: 'tareika200', what: 'поймал редкую рыбу' },
-    { who: 'nTEH4Ik', what: 'построил нереальную ферму' },
-    { who: 'GROMKLED', what: 'летает на элитрах' }
+    { who: '5Kroc_', what: 'достроил неоновую базу' },
+    { who: 'tareika200', what: 'поймал редкую рыбу' }
   ];
   const tickerTrack = document.getElementById('tickerTrack');
   if (tickerTrack) {
@@ -221,17 +221,17 @@
     ], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
   }
 
-  const onRules = document.body.classList.contains('page-rules');
+  const isHome = location.pathname === '/' || location.pathname.endsWith('/index.html');
   document.querySelectorAll('.brand').forEach(b => {
     b.addEventListener('click', (e) => {
       e.preventDefault();
       ripple(e.clientX, e.clientY);
       pop(b);
-      if (onRules) {
-        setTimeout(() => { window.location.href = 'index.html'; }, 220);
-      } else {
+      if (isHome) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         try { history.replaceState(null, '', basePath() + location.search); } catch (err) {}
+      } else {
+        setTimeout(() => { window.location.href = 'index.html'; }, 200);
       }
     });
   });
@@ -391,5 +391,98 @@
   if (twitchCard) {
     checkTwitch();
     setInterval(checkTwitch, 3 * 60 * 1000);
+  }
+
+  const appealForm = document.getElementById('appealForm');
+  if (appealForm) {
+    const box   = document.getElementById('appealBox');
+    const done  = document.getElementById('appealDone');
+    const errEl = document.getElementById('appealErr');
+    const btn   = document.getElementById('appealSubmit');
+    const about = document.getElementById('fAbout');
+    const wc    = document.getElementById('wordCount');
+    const nickField = document.getElementById('fNick');
+    const nickAvatar = document.getElementById('nickAvatar');
+    if (nickField && nickAvatar) {
+      const syncAvatar = () => {
+        const v = nickField.value.trim();
+        if (/^[a-zA-Z0-9_]{3,16}$/.test(v)) {
+          nickAvatar.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(v) + '/64';
+          nickAvatar.classList.add('show');
+        } else {
+          nickAvatar.classList.remove('show');
+        }
+      };
+      nickField.addEventListener('input', syncAvatar);
+    }
+
+    const countWords = (s) => (s.trim().match(/\S+/g) || []).length;
+    if (about && wc) {
+      wc.textContent = countWords(about.value);
+      about.addEventListener('input', () => { wc.textContent = countWords(about.value); });
+    }
+    const setErr = (field, on) => { if (field) field.closest('.field').classList.toggle('field--err', on); };
+    const showErr = (msg) => { if (errEl) { errEl.textContent = msg; errEl.hidden = false; } };
+    const hideErr = () => { if (errEl) errEl.hidden = true; };
+    const DUP_KEY = 'tklch_appeal_sent';
+    const sentNicks = () => { try { return JSON.parse(localStorage.getItem(DUP_KEY) || '{}'); } catch (e) { return {}; } };
+    const alreadySent = (n) => { const m = sentNicks(); const t = m[n.toLowerCase()]; return !!(t && (Date.now() - t < 24 * 3600 * 1000)); };
+    const rememberNick = (n) => { const m = sentNicks(); m[n.toLowerCase()] = Date.now(); try { localStorage.setItem(DUP_KEY, JSON.stringify(m)); } catch (e) {} };
+
+    appealForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideErr();
+      const nick   = document.getElementById('fNick');
+      const age    = document.getElementById('fAge');
+      const agree  = document.getElementById('rulesAgree');
+      const gotcha = document.getElementById('fGotcha');
+
+      const nickOk  = /^[a-zA-Z0-9_]{3,16}$/.test(nick.value.trim());
+      const aboutOk = about.value.trim().length > 0;
+      const ageNum  = parseInt(age.value, 10);
+      const ageOk   = !isNaN(ageNum) && ageNum >= 6 && ageNum <= 99;
+      setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk);
+
+      if (!nickOk || !aboutOk || !ageOk) { showErr('Проверь подсвеченные поля: ник как в игре, расскажи о себе, возраст числом.'); return; }
+      if (!agree.checked) { showErr('Нужно подтвердить, что ты прочитал(а) правила.'); return; }
+      if (gotcha && gotcha.value) { finish(); return; }
+
+      const data = {
+        nick: nick.value.trim(),
+        about: about.value.trim(),
+        age: ageNum,
+        friend: document.getElementById('fFriend').value.trim()
+      };
+
+      if (alreadySent(data.nick)) { showErr('Заявка с этим ником уже отправлена — подожди, пока админы рассмотрят.'); return; }
+
+      btn.disabled = true;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2.5px"></span> Отправляем…';
+
+      try {
+        if (SEND_MODE === 'telegram') {
+          const r = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+          let j = null; try { j = await r.json(); } catch (_) {}
+          if (!j || j.ok !== true) {
+            const code = (j && (j.error || j.status)) || ('http' + r.status);
+            showErr('Не удалось отправить. Код: ' + code + ' — попробуй ещё раз или напиши в Discord.');
+            btn.disabled = false; btn.innerHTML = orig; return;
+          }
+        } else {
+          await new Promise(res => setTimeout(res, 700));
+        }
+        rememberNick(data.nick);
+        finish();
+      } catch (err) {
+        showErr('Не удалось отправить (нет связи). Попробуй ещё раз или напиши в Discord.');
+        btn.disabled = false; btn.innerHTML = orig;
+      }
+    });
+
+    function finish() {
+      if (box) box.hidden = true;
+      if (done) { done.hidden = false; done.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    }
   }
 })();
