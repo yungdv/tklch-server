@@ -2,9 +2,9 @@
 
 ![TKLCH Vanilla — сервер проекта](assets/spawn1.png)
 
-# ⛏️ TKLCH Vanilla
+# ⛏️ Project server
 
-**Уютный ванильный PvE‑сервер Minecraft 1.21.11**
+**Сайт для сервера Minecraft 1.21.11**
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.11-5b8c3a?style=for-the-badge&logo=minecraft&logoColor=white)](https://www.minecraft.net)
 [![Loader](https://img.shields.io/badge/Loader-Fabric-d64545?style=for-the-badge)](https://fabricmc.net)
@@ -19,15 +19,15 @@
 
 ## ️ О самом сайте
 
-Это статический сайт‑лендинг проекта, собранный **на чистом HTML / CSS / JavaScript** — без фреймворков и сборщиков. Хостится бесплатно на **GitHub Pages** и открывается в РФ без VPN.
+Это статический сайт‑лендинг проекта, собранный **на чистом HTML / CSS / JavaScript** — без фреймворков и сборщиков.
 
 Что умеет:
 
 - 🟢 **Живой статус сервера** — онлайн, слоты и ники игроков тянутся в реальном времени через публичный API [`mcstatus.io`](https://mcstatus.io) (с фолбэком через CORS‑прокси, чтобы работало отовсюду)
-- 📺 **Twitch‑детект эфира без API‑ключа** — честно определяет, стримит ли `tklch_` прямо сейчас, по наличию preview‑картинки на CDN Twitch; по клику открывает официальный плеер в модалке
+- 📺 **Twitch‑детект эфира без API‑ключа** — честно определяет по наличию preview‑картинки на CDN Twitch; по клику открывает официальный плеер в модалке
 - 🖼️ **Галерея построек** с lightbox на весь экран и ленивой загрузкой
-- 📋 **Отдельная страница правил** (`rules.html`) в едином стиле
-- ✨ Парящий маскот‑«полароид», летящие частицы, scroll‑reveal, адаптив под мобилки
+- 📋 **Отдельная страница правил**  в едином стиле
+- ✨ Парящий полароид летящие частицы, scroll‑reveal, адаптив под мобилки
 - 🔍 **SEO‑обвязка** — мета‑теги, Open Graph, schema.org (JSON‑LD), `sitemap.xml`, `robots.txt`
 
 ---
