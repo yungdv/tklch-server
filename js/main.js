@@ -113,23 +113,25 @@
   const onlineEl = document.getElementById('playersOnline');
   const maxEl = document.getElementById('playersMax');
   const namesEl = document.getElementById('onlineNames');
-  const iconEl = document.getElementById('serverIcon');
-  const motdEl = document.getElementById('serverMotd');
   const setDot = (cls) => { if (statusDot) statusDot.className = 'dot ' + cls; };
   let hadSuccess = false;
 
-  async function tryJson(url) {
-    const r = await fetch(url);
+  function fetchWithTimeout(url, ms) {
+    const c = new AbortController();
+    const t = setTimeout(() => c.abort(), ms || 4000);
+    return fetch(url, { signal: c.signal }).finally(() => clearTimeout(t));
+  }
+  async function tryJson(url, ms) {
+    const r = await fetchWithTimeout(url, ms || 4000);
     if (!r.ok) throw new Error('http ' + r.status);
     return r.json();
   }
 
   async function getStatus() {
     const target = 'https://api.mcstatus.io/v2/status/java/' + STATUS_HOST;
-    try { const d = await tryJson(target); if (d && d.online) return d; } catch (e) {}
-    try { const d = await tryJson('https://api.allorigins.win/raw?url=' + encodeURIComponent(target)); if (d && d.online) return d; } catch (e) {}
-    try { const d = await tryJson('https://corsproxy.io/?' + encodeURIComponent(target)); if (d && d.online) return d; } catch (e) {}
-    try { const d = await tryJson('https://api.mcsrvstat.us/3/' + STATUS_HOST); if (d && d.online) return d; } catch (e) {}
+    try { const d = await tryJson(target, 4000); if (d && d.online) return d; } catch (e) {}
+    try { const d = await tryJson('https://api.allorigins.win/raw?url=' + encodeURIComponent(target), 4000); if (d && d.online) return d; } catch (e) {}
+    try { const d = await tryJson('https://corsproxy.io/?' + encodeURIComponent(target), 4000); if (d && d.online) return d; } catch (e) {}
     return null;
   }
 
@@ -150,7 +152,6 @@
           '<span><img src="https://mc-heads.net/avatar/' + encodeURIComponent(n) + '/18" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">' + esc(n) + '</span>'
         ).join('') + (extra > 0 ? '<span class="online-names__more">+' + extra + '</span>' : '');
       }
-      if (iconEl && d.icon) { iconEl.src = d.icon; iconEl.hidden = false; }
       if (motdEl) {
         const ml = d.motd && (d.motd.clean || d.motd.html || '');
         motdEl.textContent = typeof ml === 'string'
@@ -413,15 +414,17 @@ const TICKER = [
     if (!twitchCard) return;
     let live = null;
     try {
-      const r = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://decapi.me/twitch/uptime/' + TWITCH_USER));
+      const r = await fetchWithTimeout('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://decapi.me/twitch/uptime/' + TWITCH_USER), 4000);
       const txt = (await r.text()).trim();
       if (txt) live = !/offline|not live|not found|unknown|error/i.test(txt);
     } catch (e) { live = null; }
     if (live === true) { renderLive(twitchPreviewURL(1280, 720)); return; }
     if (live === false) { renderOffline(); return; }
+    let settled = false;
     const img = new Image();
-    img.onload = function () { renderLive(twitchPreviewURL(1280, 720)); };
-    img.onerror = function () { renderOffline(); };
+    const t = setTimeout(() => { if (!settled) { settled = true; renderOffline(); } }, 5000);
+    img.onload = function () { if (settled) return; settled = true; clearTimeout(t); renderLive(twitchPreviewURL(1280, 720)); };
+    img.onerror = function () { if (settled) return; settled = true; clearTimeout(t); renderOffline(); };
     img.src = twitchPreviewURL(320, 180);
   }
 
@@ -463,6 +466,10 @@ const TICKER = [
     const nickField = document.getElementById('fNick');
     const nickAvatar = document.getElementById('nickAvatar');
     const formLoadedAt = Date.now();
+    const capQ = document.getElementById('capQ');
+    const capA = 1 + Math.floor(Math.random() * 12);
+    const capB = 1 + Math.floor(Math.random() * 12);
+    if (capQ) capQ.textContent = capA + ' + ' + capB + ' =';
 
     if (nickField && nickAvatar) {
       const syncAvatar = () => {
@@ -487,34 +494,48 @@ const TICKER = [
     const hideErr = () => { if (errEl) errEl.hidden = true; };
     const DUP_KEY = 'tklch_appeal_sent';
     const sentNicks = () => { try { return JSON.parse(localStorage.getItem(DUP_KEY) || '{}'); } catch (e) { return {}; } };
-    const alreadySent = (n) => { const m = sentNicks(); const t = m[n.toLowerCase()]; return !!(t && (Date.now() - t < 24 * 3600 * 1000)); };
+    const alreadySent = (n) => { const m = sentNicks(); const t = m[n.toLowerCase()]; return !!(t && (Date.now() - t < 2 * 3600 * 1000)); };
     const rememberNick = (n) => { const m = sentNicks(); m[n.toLowerCase()] = Date.now(); try { localStorage.setItem(DUP_KEY, JSON.stringify(m)); } catch (e) {} };
+
+        function parseUsername(s) {
+      if (!s) return '';
+      const m = s.replace(/^@/, '').replace(/^https?:\/\/(t\.me|telegram\.me)\//i, '').trim();
+      return /^[A-Za-z0-9_]{3,32}$/.test(m) ? m : '';
+    }
 
     appealForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       hideErr();
-      const nick   = document.getElementById('fNick');
-      const age    = document.getElementById('fAge');
-      const agree  = document.getElementById('rulesAgree');
-      const gotcha = document.getElementById('fGotcha');
+      const nick        = document.getElementById('fNick');
+      const age         = document.getElementById('fAge');
+      const agree       = document.getElementById('rulesAgree');
+      const gotcha      = document.getElementById('fGotcha');
+      const capInput    = document.getElementById('fCap');
+      const contactField = document.getElementById('fContact');
 
       if (gotcha && gotcha.value) { finish(); return; }
-      if (Date.now() - formLoadedAt < 2500) { finish(); return; }
 
-      const nickOk  = /^[a-zA-Z0-9_]{3,16}$/.test(nick.value.trim());
-      const aboutOk = about.value.trim().length > 0 && about.value.trim().length <= 1000;
-      const ageNum  = parseInt(age.value, 10);
-      const ageOk   = !isNaN(ageNum) && ageNum >= 6 && ageNum <= 99;
-      setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk);
+      const cu         = parseUsername(contactField.value.trim());
+      const contactOk  = !!cu;
+      const nickOk     = /^[a-zA-Z0-9_]{3,16}$/.test(nick.value.trim());
+      const aboutOk    = about.value.trim().length > 0 && about.value.trim().length <= 1000;
+      const ageNum     = parseInt(age.value, 10);
+      const ageOk      = !isNaN(ageNum) && ageNum >= 6 && ageNum <= 99;
+      const capOk      = capInput && parseInt(capInput.value, 10) === capA + capB;
+      setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk); setErr(contactField, !contactOk);
 
-      if (!nickOk || !aboutOk || !ageOk) { showErr('Проверь подсвеченные поля: ник как в игре, расскажи о себе, возраст числом.'); return; }
+      if (!nickOk || !aboutOk || !ageOk || !contactOk) { showErr('Проверь подсвеченные поля: ник как в игре, расскажи о себе, возраст числом, Telegram как @username.'); return; }
+      if (!capOk) { showErr('Проверка не пройдена — посчитай пример ещё раз.'); return; }
       if (!agree.checked) { showErr('Нужно подтвердить, что ты прочитал(а) правила.'); return; }
 
       const data = {
         nick: nick.value.trim(),
         about: about.value.trim(),
         age: ageNum,
-        friend: document.getElementById('fFriend').value.trim()
+        friend: document.getElementById('fFriend').value.trim(),
+        contact: '@' + cu,
+        _gotcha: gotcha ? gotcha.value : '',
+        _ca: capA, _cb: capB, _cr: capInput ? parseInt(capInput.value, 10) : NaN
       };
 
       if (alreadySent(data.nick)) { showErr('Заявка с этим ником уже отправлена — подожди, пока админы рассмотрят.'); return; }
@@ -528,11 +549,17 @@ const TICKER = [
           const r = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
           let j = null; try { j = await r.json(); } catch (_) {}
           if (!j || j.ok !== true) {
-            const code = (j && (j.error || j.status)) || ('http' + r.status);
-            if (code === 'rate' || code === 'dup') {
+            const code = j && (j.error || j.status);
+            if (code === 'dup') {
+              showErr('Заявка с этим ником уже на рассмотрении. Если её отклонят — сможешь подать снова. Или подожди пару часов.');
+            } else if (code === 'rate' || code === 'ipn') {
               showErr('С этого устройства уже отправляли недавно — подожди немного или напиши нам в TG.');
+            } else if (code === 'captcha' || code === 'invalid') {
+              showErr('Что‑то не так с полями или проверкой — заполни ещё раз внимательно.');
+            } else if (code === 'flood') {
+              showErr('Сейчас слишком много заявок со всего сайта — подожди минуту.');
             } else {
-              showErr('Не удалось отправить. Код: ' + code + ' — попробуй ещё раз или напиши в TG.');
+              showErr('Не удалось отправить (код: ' + (code || ('http' + r.status)) + '). Попробуй ещё раз или напиши в TG.');
             }
             btn.disabled = false; btn.innerHTML = orig; return;
           }
@@ -542,7 +569,7 @@ const TICKER = [
         rememberNick(data.nick);
         finish();
       } catch (err) {
-        showErr('Не удалось отправить (нет связи). Попробуй ещё раз или напиши в TG.');
+        showErr('Не удалось отправить. Попробуй ещё раз или напиши в TG.');
         btn.disabled = false; btn.innerHTML = orig;
       }
     });
