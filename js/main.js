@@ -397,12 +397,10 @@ const TICKER = [
   function renderOffline() {
     twitchCard.innerHTML =
       '<div class="twitch__off">' +
-        '<span class="twitch__off-ic"><svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v-3H4V6h5V3H4Zm13 0v3h3l-4 4-3-3-2 2 3 3-3 3 2 2 3-3 4 4h-3v3h5l3-3V6l-3-3h-5Z"/></svg></span>' +
-        '<div class="twitch__off-txt">' +
-          '<h3>' + TWITCH_USER + '</h3>' +
-          '<p>Стример проекта TKLCH Vanilla. Стримы выживания, обзоры построек и общение с комьюнити.</p>' +
-          '<span class="status-line"><span class="dot"></span> сейчас не в эфире</span>' +
-        '</div>' +
+        '<span class="twitch__off-ic"><svg viewBox="0 0 24 24" width="38" height="38" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v3l3-3h4l5-5V3H4Zm15 11-3 3h-4l-3 3v-3H5V5h14v9ZM15 7h-2v5h2V7Zm-5 0H8v5h2V7Z"/></svg></span>' +
+        '<h3>' + TWITCH_USER + '</h3>' +
+        '<p>Стример проекта TKLCH Vanilla. Стримы выживания, обзоры построек и общение с комьюнити.</p>' +
+        '<span class="status-line"><span class="dot"></span> сейчас не в эфире</span>' +
         '<a class="twitch__btn" href="https://twitch.tv/' + TWITCH_USER + '" target="_blank" rel="noopener">' +
           '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v3l3-3h4l5-5V3H4Zm15 11-3 3h-4l-3 3v-3H5V5h14v9ZM15 7h-2v5h2V7Zm-5 0H8v5h2V7Z"/></svg>' +
           'Перейти на канал' +
