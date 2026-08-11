@@ -510,3 +510,52 @@
 .chat-step__btn--purple:hover{filter:brightness(1.15)} 
 .mods-list ul{margin:0 0 24px}
 .mods-list .litematica-note{margin:8px 0 20px}
+.binds{margin-top:18px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.binds__title{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;font-weight:700}
+.binds__grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 16px}
+.bind{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}
+.bind kbd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;font-weight:700;color:var(--violet-2);background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);border-bottom-width:2px;border-radius:6px;padding:3px 8px;min-width:28px;text-align:center}
+/* ===== финальная доводка карточки сервера и фич ===== */
+#about .server-card{display:grid !important;grid-template-columns:1fr 1.15fr !important;padding:0 !important;overflow:hidden !important}
+#about .server-card__body{padding:34px 36px}
+#about .server-card__head{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+#about .server-card__ava{width:60px;height:60px;flex:none;border-radius:16px;overflow:hidden;background:#fff}
+#about .server-card__ava img{width:100%;height:100%;object-fit:cover;display:block}
+#about .server-card__head .chip-row{display:flex;gap:8px;margin-bottom:6px}
+#about .server-card__head h2{font-family:'Unbounded';font-weight:700;font-size:26px;margin:0}
+#about .server-card__body p{color:var(--muted);line-height:1.65;margin:0 0 16px}
+#about .server-card__actions{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+#about .server-card__actions .mc-btn--big,
+#about .server-card__actions .ghost-btn{width:100%;justify-content:center}
+#about .server-card__media{position:relative;min-height:430px;height:100%;overflow:hidden}
+#about .server-card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.03);transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
+#about .server-card:hover .server-card__media img{transform:scale(1.1)}
+#about .server-card__media::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,14,.85),transparent 45%)}
+#about .server-card__season{position:absolute;left:16px;bottom:14px;z-index:1;display:inline-flex;align-items:center;gap:8px;background:rgba(10,10,14,.78);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--muted)}
+#about .server-card__season b{color:var(--blue);font-size:15px}
+@media(max-width:980px){
+  #about .server-card{grid-template-columns:1fr !important}
+  #about .server-card__media{order:-1;min-height:230px}
+  #about .server-card__media::after{background:linear-gradient(0deg,rgba(10,10,14,.85),transparent 55%)}
+  #about .server-card__body{padding:24px 22px}
+}
+/* фичи: ровные и компактные */
+#about .features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+#about .feature{padding:24px 22px;display:flex;flex-direction:column}
+#about .feature__ic{width:44px;height:44px;border-radius:12px;margin-bottom:14px}
+#about .feature__ic svg{width:22px;height:22px}
+#about .feature h3{font-size:16px;margin:0 0 8px}
+#about .feature p{font-size:13.5px;line-height:1.55;margin:0}
+@media(max-width:1100px){#about .features{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){#about .features{grid-template-columns:1fr}}
+/* заголовок секции слева */
+.head--left{text-align:left;margin:0 0 26px}
+/* скрин сервера мягко растворяется в фоне карточки */
+#about .server-card__media img{
+  -webkit-mask-image:radial-gradient(120% 120% at 62% 50%, #000 55%, transparent 99%);
+  mask-image:radial-gradient(120% 120% at 62% 50%, #000 55%, transparent 99%);
+}
+/* навигация по правилам (восстановление) */
+.rules-nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 auto 34px}
+.rules-nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 14px;transition:.2s}
+.rules-nav a:hover{color:var(--violet-2);border-color:rgba(139,92,246,.5);transform:translateY(-2px)}

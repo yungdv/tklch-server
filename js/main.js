@@ -4,7 +4,7 @@
   const SERVER_IP = 'tklch.xyz';
   const STATUS_HOST = 'tklch.xyz';
   const TWITCH_USER = 'tklch_';
-  const WIPE_DATE = '2026-06-26';
+  const WIPE_DATE = '2026-08-11';
   const NAMES_LIMIT = 24;
 
   const SEND_MODE = 'telegram';
@@ -364,7 +364,7 @@ const TICKER = [
     lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
-
+  document.querySelectorAll('.rule-section').forEach((s, i) => { s.id = 'r' + (i + 1); });
   const reveals = document.querySelectorAll('.reveal');
   if (reveals.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
@@ -403,7 +403,7 @@ const TICKER = [
       '<div class="twitch__off">' +
         '<span class="twitch__off-ic"><svg viewBox="0 0 24 24" width="38" height="38" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v3l3-3h4l5-5V3H4Zm15 11-3 3h-4l-3 3v-3H5V5h14v9ZM15 7h-2v5h2V7Zm-5 0H8v5h2V7Z"/></svg></span>' +
         '<h3>' + TWITCH_USER + '</h3>' +
-        '<p>Стример проекта TKLCH Vanilla. Стримы выживания, обзоры построек и общение с комьюнити.</p>' +
+        '<p>Стример проекта TKLCH Vanilla.</p>' +
         '<span class="status-line"><span class="dot"></span> сейчас не в эфире</span>' +
         '<a class="twitch__btn" href="https://twitch.tv/' + TWITCH_USER + '" target="_blank" rel="noopener">' +
           '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 3 1 6v12l3 3h5v3l3-3h4l5-5V3H4Zm15 11-3 3h-4l-3 3v-3H5V5h14v9ZM15 7h-2v5h2V7Zm-5 0H8v5h2V7Z"/></svg>' +
