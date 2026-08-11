@@ -507,6 +507,6 @@
 .litematica-note b{color:var(--violet-2)}
 .chat-steps{display:flex;flex-direction:column;gap:16px;margin-bottom:20px}
 .chat-step__btn--purple{background:linear-gradient(180deg,#a855f7,#7c3aed)}
-.chat-step__btn--purple:hover{filter:brightness(1.15)}
+.chat-step__btn--purple:hover{filter:brightness(1.15)} 
 .mods-list ul{margin:0 0 24px}
 .mods-list .litematica-note{margin:8px 0 20px}

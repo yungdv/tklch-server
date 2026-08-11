@@ -532,7 +532,7 @@ const TICKER = [
 
       if (!nickOk || !aboutOk || !ageOk) { showErr('Проверь подсвеченные поля.'); return; }
       if (!capOk) { showErr('Неверный ответ на пример.'); return; }
-      if (!agree.checked) { showErr('Нужно подтвердить правила.'); return; }
+      if (!agree.checked) { showErr('Нужно подтвердить правила.'); return; } 
 
       const data = {
         nick: nick.value.trim(),
