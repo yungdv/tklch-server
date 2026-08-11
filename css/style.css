@@ -559,3 +559,42 @@
 .rules-nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 auto 34px}
 .rules-nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 14px;transition:.2s}
 .rules-nav a:hover{color:var(--violet-2);border-color:rgba(139,92,246,.5);transform:translateY(-2px)}
+/* ===== доводка + эффекты ===== */
+/* заголовок слева: аккуратный размер и отступы */
+.head--left{margin:8px 0 30px}
+.head--left .head__title{font-size:clamp(26px,4vw,38px)}
+.head--left .head__sub{margin-top:6px}
+/* бейдж сезона — правый нижний угол */
+#about .server-card__season{left:auto;right:16px;z-index:2}
+/* скрин растворяется в фоне карточки */
+#about .server-card__media::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  box-shadow:inset 0 0 70px 34px rgba(12,10,18,.88), inset 0 0 150px 70px rgba(12,10,18,.55)}
+/* курсор-огонёк */
+.cursor-glow{position:fixed;left:0;top:0;width:28px;height:28px;border-radius:50%;pointer-events:none;z-index:999;
+  background:radial-gradient(circle, rgba(167,139,250,.55), rgba(139,92,246,.18) 55%, transparent 72%);
+  mix-blend-mode:screen}
+@media (pointer:coarse){.cursor-glow{display:none}}
+/* spotlight на карточках */
+.feature,.step{position:relative}
+.feature::after,.step::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(240px circle at var(--sx,50%) var(--sy,50%), rgba(139,92,246,.16), transparent 65%);
+  opacity:0;transition:opacity .35s}
+.feature:hover::after,.step:hover::after{opacity:1}
+.head--left{text-align:center;margin:8px 0 30px}
+/* огонёк ярче, чтобы его было реально видно */
+.cursor-glow{width:36px;height:36px;
+  background:radial-gradient(circle, rgba(196,167,255,.9), rgba(139,92,246,.35) 45%, transparent 72%)}
+  /* заголовок секции — всегда по центру */
+.head--left, .head--left .head__title, .head--left .head__sub{text-align:center !important}
+
+/* запрет выделения текста на карточках и полароиде */
+.feature, .step, .server-card, .polaroid, .bento__item, .keys{
+  -webkit-user-select:none;
+  user-select:none;
+}
+/* заголовок в секции #about — ВСЕГДА по центру, независимо от классов */
+#about .head,
+#about .head .head__title,
+#about .head .head__sub{
+  text-align:center !important;
+}

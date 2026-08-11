@@ -4,7 +4,7 @@
   const SERVER_IP = 'tklch.xyz';
   const STATUS_HOST = 'tklch.xyz';
   const TWITCH_USER = 'tklch_';
-  const WIPE_DATE = '2026-08-11';
+  const WIPE_DATE = '2026-08-13';
   const NAMES_LIMIT = 24;
 
   const SEND_MODE = 'telegram';
@@ -606,4 +606,33 @@ const TICKER = [
     fetchDiscordStats();
     setInterval(fetchDiscordStats, 2 * 60 * 1000);
   }
+/* ===== огонёк курсора и spotlight — стоит в самом конце файла ===== */
+(function () {
+  var fine = window.matchMedia('(pointer:fine)').matches;
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine) return;
+
+  document.querySelectorAll('.feature,.step').forEach(function (el) {
+    el.addEventListener('mousemove', function (e) {
+      var r = el.getBoundingClientRect();
+      el.style.setProperty('--sx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  if (calm) return;
+  var glow = document.createElement('div');
+  glow.className = 'cursor-glow';
+  document.body.appendChild(glow);
+  var gx = innerWidth / 2, gy = innerHeight / 2, ax = gx, ay = gy, s = 1, ts = 1;
+  window.addEventListener('mousemove', function (e) { gx = e.clientX; gy = e.clientY; }, { passive: true });
+  document.addEventListener('mouseover', function (e) {
+    ts = e.target.closest('a,button,.feature,.step,.bento__item,.polaroid') ? 1.8 : 1;
+  });
+  (function loop() {
+    ax += (gx - ax) * .18; ay += (gy - ay) * .18; s += (ts - s) * .2;
+    glow.style.transform = 'translate(' + ax + 'px,' + ay + 'px) translate(-50%,-50%) scale(' + s + ')';
+    requestAnimationFrame(loop);
+  })();
+})();
 })();
