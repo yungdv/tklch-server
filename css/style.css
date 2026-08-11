@@ -598,3 +598,34 @@
 #about .head .head__sub{
   text-align:center !important;
 }
+/* полароид: сине-фиолетовый градиент */
+.polaroid{
+  background:linear-gradient(160deg,#ded1ff 0%,#c9e2ff 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.5),
+    0 0 70px rgba(124,92,240,.5),0 0 46px rgba(56,189,248,.28);
+}
+.polaroid__photo{
+  background:linear-gradient(160deg,#8b5cf6 0%,#6366f1 45%,#38bdf8 100%);
+}
+.polaroid__cap{
+  background:linear-gradient(90deg,#7c3aed,#2563eb);
+  -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;
+}
+/* полароид: убираем белый блик, оставляем «фотку» */
+.polaroid__photo{background:linear-gradient(160deg,#eee9ff 0%,#dff1ff 100%)}
+.polaroid__photo img{mix-blend-mode:multiply}
+/* скрин в карточке — в тон сайта */
+#about .server-card__media img{
+  filter:saturate(1.3) hue-rotate(28deg) brightness(1.1) contrast(1.05);
+}
+#about .server-card__media::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg, rgba(99,102,241,.25), rgba(139,92,246,.18) 55%, rgba(8,8,12,.6));
+  mix-blend-mode:soft-light;
+}
+#about .server-card__media::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(10,10,14,.85), transparent 45%),
+    radial-gradient(120% 120% at 60% 50%, transparent 55%, rgba(12,10,18,.55) 100%);
+}
