@@ -472,3 +472,17 @@
 .chat-step__btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
 .appeal-done__ip{display:inline-block;margin:6px auto 4px;padding:10px 18px;border-radius:10px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--muted);font-size:14px}
 .appeal-done__ip b{color:var(--blue);font-family:ui-monospace,Menlo,Consolas,monospace}
+/* Новые правила */
+.rules-content{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+.rule-section{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:32px;transition:.3s}
+.rule-section:hover{border-color:rgba(139,92,246,.4)}
+.rule-section__title{font-family:'Unbounded';font-weight:700;font-size:24px;margin-bottom:20px;color:var(--violet-2);border-bottom:2px solid rgba(139,92,246,.3);padding-bottom:12px}
+.rule-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.rule-list li{padding-left:16px;border-left:3px solid rgba(139,92,246,.4);color:var(--muted);line-height:1.6}
+.rule-list li b{color:var(--text);font-weight:600;margin-right:8px}
+.mods-list{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:12px;padding:24px}
+.mods-list p{margin-bottom:16px;color:var(--text)}
+.mods-list ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.mods-list li{font-size:13.5px;color:var(--muted);padding:6px 10px;background:rgba(255,255,255,.04);border-radius:6px}
+.mods-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))!important}
+@media(max-width:760px){.rule-section{padding:22px}.mods-list ul{grid-template-columns:1fr}}
