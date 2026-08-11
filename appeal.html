@@ -79,31 +79,39 @@
               <span class="field__hint">Необязательно</span>
             </label>
           </div>
-
-          <label class="field">
-            <span class="field__label">Проверка, что ты не робот <b>*</b></span>
-            <div class="cap-row">
-              <span class="cap-q" id="capQ">? + ? =</span>
-              <input type="number" id="fCap" inputmode="numeric" placeholder="ответ">
+          <span class="field__label">Нужно выполнить 2 шага</span>
+          <div class="chat-steps">
+            <div class="chat-step">
+              <span class="chat-step__n">1</span>
+              <div class="chat-step__body">
+                <b>Подпишись на тг канал</b>
+                <p>Чтобы быть в курсе обновлений и анонсов.</p>
+                <a class="chat-step__btn" href="https://t.me/tklch1" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.4l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.7 1.1Z"/></svg>
+                  Подписаться на канал
+                </a>
+              </div>
             </div>
-          </label>
 
-          <div class="chat-step">
-            <span class="chat-step__n">0</span>
-            <div class="chat-step__body">
-              <b>Сначала зайди в чат сервера</b>
-              <p>Заходите в чат с ником который указываете ниже, все будет проверятся.</p>
-              <a class="chat-step__btn" href="https://t.me/+X7nzIsQjGr85MTEy" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.4l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.7 1.1Z"/></svg>
-                Открыть чат сервера
-              </a>
+            <div class="chat-step">
+              <span class="chat-step__n">2</span>
+              <div class="chat-step__body">
+                <b>Зайди в чат сервера</b>
+                <p>Напиши туда свой ник из Майнкрафта.</p>
+                <a class="chat-step__btn" href="https://t.me/+W9TUiz_y2bthZDky" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.4l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.7 1.1Z"/></svg>
+                  Открыть чат сервера
+                </a>
+              </div>
             </div>
           </div>
 
           <label class="field">
-            <span class="field__label">Твой Telegram <b>*</b></span>
-            <input type="text" name="contact" id="fContact" placeholder="@твой_username" autocomplete="off">
-            <span class="field__hint">Укажите свой tg username через @</span>
+            <span class="field__label">Проверка <b>*</b></span>
+            <div class="cap-row">
+              <span class="cap-q" id="capQ">? + ? =</span>
+              <input type="number" id="fCap" inputmode="numeric" placeholder="ответ">
+            </div>
           </label>
 
           <label class="check">
@@ -113,7 +121,7 @@
 
           <div class="appeal-note">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-            <span>Заявки смотрят админы вручную — иногда придётся подождать.</span>
+            <span>Все заявки рассматриваются вручную.</span>
           </div>
 
           <p class="appeal-err" id="appealErr" hidden></p>
@@ -130,7 +138,7 @@
           <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </span>
         <h2>Заявка принята ✓</h2>
-        <p>Спасибо! Когда тебя добавят в whitelist, сервер сам пустит тебя по IP.</p>
+        <p>Спасибо! Теперь зайди в чат сервера и напиши свой ник — админ увидит заявку и проверит тебя.</p>
         <div class="appeal-done__ip">IP сервера: <b>tklch.xyz</b> — пробуй подключаться, как только одобрят.</div>
         <div class="appeal-done__btns">
           <a class="mc-btn mc-btn--big" href="https://drive.google.com/drive/folders/1QdErwr2cvwE86DZERd6zlfcnde2Ei71H?usp=sharing" target="_blank" rel="noopener">

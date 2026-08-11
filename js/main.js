@@ -10,6 +10,9 @@
   const SEND_MODE = 'telegram';
   const WORKER_URL = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
 
+  // Реальный ID сервера Discord из твоей ссылки discord.gg/ajmHTSqC7
+  const DISCORD_GUILD_ID = '1283459988966035496'; 
+
   function basePath() {
     return location.pathname.replace(/\/index\.html$/, '/');
   }
@@ -152,12 +155,6 @@
           '<span><img src="https://mc-heads.net/avatar/' + encodeURIComponent(n) + '/18" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">' + esc(n) + '</span>'
         ).join('') + (extra > 0 ? '<span class="online-names__more">+' + extra + '</span>' : '');
       }
-      if (motdEl) {
-        const ml = d.motd && (d.motd.clean || d.motd.html || '');
-        motdEl.textContent = typeof ml === 'string'
-          ? ml.split('\n').map(s => s.trim()).filter(Boolean).join('\n')
-          : (Array.isArray(ml) ? ml.join('\n') : '');
-      }
     } else if (!hadSuccess) {
       setDot('dot--check');
       if (onlineEl) onlineEl.textContent = '—';
@@ -186,7 +183,6 @@ const TICKER = [
     { who: 'lavina444', what: 'посадил вишнёвую рощу' },
     { who: 'BitterSweet', what: 'проложил дорогу к шахте' },
     { who: '5Kroc_', what: 'достроил новую базу' },
-    { who: 'tareika200', what: 'поймал редкую рыбу' },
     { who: 'GROMKLED', what: 'летает на элитрах' },
     { who: 'tareika200', what: 'поймал редкую рыбу' },
     { who: 'yanomenko', what: 'фармит данжи' },
@@ -203,6 +199,7 @@ const TICKER = [
     tickerTrack.innerHTML = one + one;
   }
 
+  // ПАРАЛЛАКС И АНИМАЦИИ МЫШИ
   const heroBg = document.querySelector('.hero__bg');
   const heroArt = document.querySelector('.hero__art');
   const hero = document.querySelector('.hero');
@@ -348,11 +345,18 @@ const TICKER = [
   const lbClose = document.getElementById('lbClose');
   if (lightbox && lbImg) {
     document.querySelectorAll('.bento__item[data-img]').forEach(fig => {
-      fig.addEventListener('click', () => {
+      const openLightbox = () => {
         lbImg.src = fig.dataset.img;
         lbImg.alt = fig.querySelector('img')?.alt || '';
         lightbox.classList.add('open');
         lightbox.setAttribute('aria-hidden', 'false');
+        };
+      fig.addEventListener('click', openLightbox);
+      fig.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox();
+        }
       });
     });
     const close = () => { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden', 'true'); };
@@ -453,6 +457,7 @@ const TICKER = [
     setInterval(checkTwitch, 3 * 60 * 1000);
   }
 
+  // ФОРМА ЗАЯВКИ
   const appealForm = document.getElementById('appealForm');
   if (appealForm) {
     const box   = document.getElementById('appealBox');
@@ -460,13 +465,28 @@ const TICKER = [
     const errEl = document.getElementById('appealErr');
     const btn   = document.getElementById('appealSubmit');
     const about = document.getElementById('fAbout');
-    const wc    = document.getElementById('wordCount');
     const nickField = document.getElementById('fNick');
     const nickAvatar = document.getElementById('nickAvatar');
-    const formLoadedAt = Date.now();
     const capQ = document.getElementById('capQ');
+    
+    // Генерация капчи
     const capA = 1 + Math.floor(Math.random() * 12);
     const capB = 1 + Math.floor(Math.random() * 12);
+    const capExpiry = Date.now() + 5 * 60 * 1000;
+    let capToken = '';
+
+    // Упрощенная генерация токена (SHA-256 хеш от строки)
+    async function generateToken(a, b, expiry) {
+      const data = `${a}:${b}:${Math.floor(expiry / 300000)}`;
+      const msgBuffer = new TextEncoder().encode(data);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 16);
+    }
+
+    generateToken(capA, capB, capExpiry).then(token => {
+      capToken = token;
+    });
     if (capQ) capQ.textContent = capA + ' + ' + capB + ' =';
 
     if (nickField && nickAvatar) {
@@ -482,24 +502,14 @@ const TICKER = [
       nickField.addEventListener('input', syncAvatar);
     }
 
-    const countWords = (s) => (s.trim().match(/\S+/g) || []).length;
-    if (about && wc) {
-      wc.textContent = countWords(about.value);
-      about.addEventListener('input', () => { wc.textContent = countWords(about.value); });
-    }
     const setErr = (field, on) => { if (field) field.closest('.field').classList.toggle('field--err', on); };
     const showErr = (msg) => { if (errEl) { errEl.textContent = msg; errEl.hidden = false; } };
     const hideErr = () => { if (errEl) errEl.hidden = true; };
+    
     const DUP_KEY = 'tklch_appeal_sent';
     const sentNicks = () => { try { return JSON.parse(localStorage.getItem(DUP_KEY) || '{}'); } catch (e) { return {}; } };
     const alreadySent = (n) => { const m = sentNicks(); const t = m[n.toLowerCase()]; return !!(t && (Date.now() - t < 2 * 3600 * 1000)); };
     const rememberNick = (n) => { const m = sentNicks(); m[n.toLowerCase()] = Date.now(); try { localStorage.setItem(DUP_KEY, JSON.stringify(m)); } catch (e) {} };
-
-        function parseUsername(s) {
-      if (!s) return '';
-      const m = s.replace(/^@/, '').replace(/^https?:\/\/(t\.me|telegram\.me)\//i, '').trim();
-      return /^[A-Za-z0-9_]{3,32}$/.test(m) ? m : '';
-    }
 
     appealForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -509,34 +519,35 @@ const TICKER = [
       const agree       = document.getElementById('rulesAgree');
       const gotcha      = document.getElementById('fGotcha');
       const capInput    = document.getElementById('fCap');
-      const contactField = document.getElementById('fContact');
 
       if (gotcha && gotcha.value) { finish(); return; }
 
-      const cu         = parseUsername(contactField.value.trim());
-      const contactOk  = !!cu;
       const nickOk     = /^[a-zA-Z0-9_]{3,16}$/.test(nick.value.trim());
       const aboutOk    = about.value.trim().length > 0 && about.value.trim().length <= 1000;
       const ageNum     = parseInt(age.value, 10);
       const ageOk      = !isNaN(ageNum) && ageNum >= 6 && ageNum <= 99;
       const capOk      = capInput && parseInt(capInput.value, 10) === capA + capB;
-      setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk); setErr(contactField, !contactOk);
+      
+      setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk);
 
-      if (!nickOk || !aboutOk || !ageOk || !contactOk) { showErr('Проверь подсвеченные поля: ник как в игре, расскажи о себе, возраст числом, Telegram как @username.'); return; }
-      if (!capOk) { showErr('Проверка не пройдена — посчитай пример ещё раз.'); return; }
-      if (!agree.checked) { showErr('Нужно подтвердить, что ты прочитал(а) правила.'); return; }
+      if (!nickOk || !aboutOk || !ageOk) { showErr('Проверь подсвеченные поля.'); return; }
+      if (!capOk) { showErr('Неверный ответ на пример.'); return; }
+      if (!agree.checked) { showErr('Нужно подтвердить правила.'); return; }
 
       const data = {
         nick: nick.value.trim(),
         about: about.value.trim(),
         age: ageNum,
         friend: document.getElementById('fFriend').value.trim(),
-        contact: '@' + cu,
         _gotcha: gotcha ? gotcha.value : '',
-        _ca: capA, _cb: capB, _cr: capInput ? parseInt(capInput.value, 10) : NaN
+        _ca: capA,
+        _cb: capB,
+        _cr: capInput ? parseInt(capInput.value, 10) : NaN,
+        _ct: capToken,
+        _exp: capExpiry
       };
 
-      if (alreadySent(data.nick)) { showErr('Заявка с этим ником уже отправлена — подожди, пока админы рассмотрят.'); return; }
+      if (alreadySent(data.nick)) { showErr('Заявка уже отправлена недавно.'); return; }
 
       btn.disabled = true;
       const orig = btn.innerHTML;
@@ -548,17 +559,11 @@ const TICKER = [
           let j = null; try { j = await r.json(); } catch (_) {}
           if (!j || j.ok !== true) {
             const code = j && (j.error || j.status);
-            if (code === 'dup') {
-              showErr('Заявка с этим ником уже на рассмотрении. Если её отклонят — сможешь подать снова. Или подожди пару часов.');
-            } else if (code === 'rate' || code === 'ipn') {
-              showErr('С этого устройства уже отправляли недавно — подожди немного или напиши нам в TG.');
-            } else if (code === 'captcha' || code === 'invalid') {
-              showErr('Что‑то не так с полями или проверкой — заполни ещё раз внимательно.');
-            } else if (code === 'flood') {
-              showErr('Сейчас слишком много заявок со всего сайта — подожди минуту.');
-            } else {
-              showErr('Не удалось отправить (код: ' + (code || ('http' + r.status)) + '). Попробуй ещё раз или напиши в TG.');
-            }
+            if (code === 'dup') showErr('Заявка уже есть.');
+            else if (code === 'rate' || code === 'ipn') showErr('Много заявок с этого IP.');
+            else if (code === 'captcha' || code === 'invalid') showErr('Ошибка проверки.');
+            else if (code === 'flood') showErr('Подожди минуту.');
+            else showErr('Ошибка отправки.');
             btn.disabled = false; btn.innerHTML = orig; return;
           }
         } else {
@@ -567,7 +572,7 @@ const TICKER = [
         rememberNick(data.nick);
         finish();
       } catch (err) {
-        showErr('Не удалось отправить. Попробуй ещё раз или напиши в TG.');
+        showErr('Не удалось отправить.');
         btn.disabled = false; btn.innerHTML = orig;
       }
     });
@@ -576,5 +581,29 @@ const TICKER = [
       if (box) box.hidden = true;
       if (done) { done.hidden = false; done.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     }
+  }
+
+  // DISCORD WIDGET
+  const discordCountEl = document.getElementById('discordCount');
+  async function fetchDiscordStats() {
+    if (!discordCountEl) return;
+    try {
+      const widgetUrl = `https://discord.com/api/guilds/${DISCORD_GUILD_ID}/widget.json`;
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(widgetUrl)}`;
+      const response = await fetchWithTimeout(proxyUrl, 5000);
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      const onlineCount = data.presence_count || 0;
+      discordCountEl.innerHTML = `<span style="color: #4ade80; font-weight: bold;">${onlineCount}</span>`;
+      discordCountEl.title = `${onlineCount} человек онлайн`;
+    } catch (e) {
+      discordCountEl.textContent = 'N/A';
+      discordCountEl.title = 'Не удалось получить статистику';
+    }
+  }
+
+  if (discordCountEl) {
+    fetchDiscordStats();
+    setInterval(fetchDiscordStats, 2 * 60 * 1000);
   }
 })();
