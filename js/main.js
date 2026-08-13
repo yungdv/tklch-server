@@ -412,22 +412,24 @@ const TICKER = [
       '</div>';
   }
 
-  async function checkTwitch() {
+    async function checkTwitch() {
     if (!twitchCard) return;
-    let live = null;
-    try {
-      const r = await fetchWithTimeout('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://decapi.me/twitch/uptime/' + TWITCH_USER), 4000);
-      const txt = (await r.text()).trim();
-      if (txt) live = !/offline|not live|not found|unknown|error/i.test(txt);
-    } catch (e) { live = null; }
-    if (live === true) { renderLive(twitchPreviewURL(1280, 720)); return; }
-    if (live === false) { renderOffline(); return; }
-    let settled = false;
-    const img = new Image();
-    const t = setTimeout(() => { if (!settled) { settled = true; renderOffline(); } }, 5000);
-    img.onload = function () { if (settled) return; settled = true; clearTimeout(t); renderLive(twitchPreviewURL(1280, 720)); };
-    img.onerror = function () { if (settled) return; settled = true; clearTimeout(t); renderOffline(); };
-    img.src = twitchPreviewURL(320, 180);
+    let live = false;
+    const urls = [
+      'https://decapi.me/twitch/uptime/' + TWITCH_USER,
+      'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://decapi.me/twitch/uptime/' + TWITCH_USER)
+    ];
+    for (const u of urls) {
+      try {
+        const r = await fetchWithTimeout(u, 4000);
+        if (!r.ok) continue;
+        const txt = (await r.text()).trim();
+        if (!txt) continue;
+        if (/offline|not live|not found|unknown|error/i.test(txt)) { live = false; break; }
+        if (/\d/.test(txt)) { live = true; break; }
+      } catch (e) {}
+    }
+    if (live) renderLive(twitchPreviewURL(1280, 720)); else renderOffline();
   }
 
   function openTwitchPlayer() {
