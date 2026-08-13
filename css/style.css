@@ -86,7 +86,7 @@
   .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;overflow:hidden}
   .hero__bg{
     position:absolute;inset:0;z-index:0;
-    background:url('../assets/background.png') center/cover no-repeat;
+    background:url('../assets/background.jpg') center/cover no-repeat;
     filter:blur(3px) saturate(1.1) brightness(.9);
     transform:translate(var(--px,0px),var(--py,0px)) scale(1.16);
     animation:slowzoom 26s ease-in-out infinite alternate;
