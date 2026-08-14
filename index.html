@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=3'">
 </head>
 <body>
 
@@ -241,6 +241,15 @@
       </article>
     </div>
 
+    <div class="wl-check reveal">
+      <span class="wl-check__cap">Уже подал заявку? Проверь, добавили ли тебя в whitelist</span>
+      <div class="wl-check__box">
+        <input type="text" id="wlNick" placeholder="Твой ник" maxlength="16" autocomplete="off">
+        <button class="mc-btn mc-btn--sm" id="wlBtn" type="button">Проверить</button>
+      </div>
+      <p class="wl-check__res" id="wlRes" hidden></p>
+    </div>
+
     <a href="rules.html" class="rules-teaser reveal">
       <span class="rules-teaser__ic">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
@@ -420,6 +429,6 @@
   <span>IP скопирован!</span>
 </div>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=3'"></script>
 </body>
 </html>

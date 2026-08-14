@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=3'">
 </head>
 <body class="page-appeal">
 
@@ -107,6 +107,12 @@
           </div>
 
           <label class="field">
+            <span class="field__label">Telegram для уведомления по заявке <span style="color:var(--muted)">(необязательно)</span></span>
+            <input type="text" name="contact" id="fContact" placeholder="@username" autocomplete="off">
+            <span class="field__hint">Чтобы бот написал тебе, когда заявку одобрят, нажми /start у бота — <a href="https://t.me/TklchMine_bot" target="_blank" rel="noopener">TKLCHminebot</a></span>
+          </label>
+
+          <label class="field">
             <span class="field__label">Проверка <b>*</b></span>
             <div class="cap-row">
               <span class="cap-q" id="capQ">? + ? =</span>
@@ -199,6 +205,6 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=3'"></script>
 </body>
 </html>

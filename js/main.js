@@ -5,7 +5,7 @@
   const STATUS_HOST = 'tklch.xyz';
   const TWITCH_USER = 'tklch_';
   const WIPE_DATE = '2026-08-13';
-  const NAMES_LIMIT = 24;
+  const NAMES_LIMIT = 200;
 
   const SEND_MODE = 'telegram';
   const WORKER_URL = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
@@ -150,10 +150,10 @@
         const raw = d.players?.list || [];
         const all = raw.map(x => typeof x === 'string' ? x : (x.name_clean || x.name || '')).filter(Boolean);
         const shown = all.slice(0, NAMES_LIMIT);
-        const extra = all.length - shown.length;
+        const extra = Math.max(0, (d.players?.online ?? all.length) - shown.length);
         namesEl.innerHTML = shown.map(n =>
           '<span><img src="https://mc-heads.net/avatar/' + encodeURIComponent(n) + '/18" alt="" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">' + esc(n) + '</span>'
-        ).join('') + (extra > 0 ? '<span class="online-names__more">+' + extra + '</span>' : '');
+        ).join('') + (extra > 0 ? '<span class="online-names__more">и ещё ' + extra + ' в игре</span>' : '');
       }
     } else if (!hadSuccess) {
       setDot('dot--check');
@@ -541,12 +541,9 @@ const TICKER = [
         about: about.value.trim(),
         age: ageNum,
         friend: document.getElementById('fFriend').value.trim(),
+        contact: document.getElementById('fContact') ? document.getElementById('fContact').value.trim() : '',
         _gotcha: gotcha ? gotcha.value : '',
-        _ca: capA,
-        _cb: capB,
-        _cr: capInput ? parseInt(capInput.value, 10) : NaN,
-        _ct: capToken,
-        _exp: capExpiry
+        _ca: capA, _cb: capB, _cr: capInput ? parseInt(capInput.value, 10) : NaN
       };
 
       if (alreadySent(data.nick)) { showErr('Заявка уже отправлена недавно.'); return; }
@@ -636,5 +633,38 @@ const TICKER = [
     glow.style.transform = 'translate(' + ax + 'px,' + ay + 'px) translate(-50%,-50%) scale(' + s + ')';
     requestAnimationFrame(loop);
   })();
+})();
+/* проверка вайтлиста */
+(function () {
+  var W = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
+  var btn = document.getElementById('wlBtn');
+  var inp = document.getElementById('wlNick');
+  var res = document.getElementById('wlRes');
+  if (!btn || !inp || !res) return;
+  btn.addEventListener('click', async function () {
+    var nick = inp.value.trim();
+    if (!/^[a-zA-Z0-9_]{3,16}$/.test(nick)) {
+      res.hidden = false; res.className = 'wl-check__res no';
+      res.textContent = 'Введи корректный ник: латиница, цифры и _.';
+      return;
+    }
+    btn.disabled = true;
+    try {
+      var r = await fetch(W + '?check=' + encodeURIComponent(nick));
+      var j = await r.json();
+      res.hidden = false;
+      if (j && j.wl) {
+        res.className = 'wl-check__res ok';
+        res.textContent = '✅ ' + nick + ' в whitelist — заходи на сервер!';
+      } else {
+        res.className = 'wl-check__res no';
+        res.textContent = 'Пока нет. Заявки смотрят вручную — подожди немного.';
+      }
+    } catch (e) {
+      res.hidden = false; res.className = 'wl-check__res no';
+      res.textContent = 'Не удалось проверить — попробуй позже.';
+    }
+    btn.disabled = false;
+  });
 })();
 })();
