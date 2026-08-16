@@ -11,7 +11,7 @@
   const WORKER_URL = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
 
   // Реальный ID сервера Discord из твоей ссылки discord.gg/ajmHTSqC7
-  const DISCORD_GUILD_ID = '1283459988966035496'; 
+  const DISCORD_GUILD_ID = '1283459988966035496';
 
   function basePath() {
     return location.pathname.replace(/\/index\.html$/, '/');
@@ -144,6 +144,8 @@
     if (d && d.online) {
       hadSuccess = true;
       setDot('dot--green');
+      if (onlineEl) onlineEl.classList.remove('loading');
+      if (maxEl) maxEl.classList.remove('loading');
       animateNumber(onlineEl, d.players?.online ?? 0);
       animateNumber(maxEl, d.players?.max ?? 0);
       if (namesEl) {
@@ -157,8 +159,8 @@
       }
     } else if (!hadSuccess) {
       setDot('dot--check');
-      if (onlineEl) onlineEl.textContent = '—';
-      if (maxEl) maxEl.textContent = '—';
+      if (onlineEl) { onlineEl.textContent = '—'; onlineEl.classList.remove('loading'); }
+      if (maxEl) { maxEl.textContent = '—'; maxEl.classList.remove('loading'); }
     }
   }
 
@@ -174,7 +176,7 @@
     animateNumber(wipeEl, days);
   }
 
-const TICKER = [
+  const TICKER = [
     { who: 'tklch', what: 'опять сгорел на стриме' },
     { who: 'Danka', what: 'жестко завозит(нет)' },
     { who: 'karma777', what: 'нашёл алмазы на Y = -58' },
@@ -350,7 +352,7 @@ const TICKER = [
         lbImg.alt = fig.querySelector('img')?.alt || '';
         lightbox.classList.add('open');
         lightbox.setAttribute('aria-hidden', 'false');
-        };
+      };
       fig.addEventListener('click', openLightbox);
       fig.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -364,7 +366,9 @@ const TICKER = [
     lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
+
   document.querySelectorAll('.rule-section').forEach((s, i) => { s.id = 'r' + (i + 1); });
+
   const reveals = document.querySelectorAll('.reveal');
   if (reveals.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
@@ -412,7 +416,7 @@ const TICKER = [
       '</div>';
   }
 
-    async function checkTwitch() {
+  async function checkTwitch() {
     if (!twitchCard) return;
     let live = false;
     const urls = [
@@ -470,14 +474,13 @@ const TICKER = [
     const nickField = document.getElementById('fNick');
     const nickAvatar = document.getElementById('nickAvatar');
     const capQ = document.getElementById('capQ');
-    
+
     // Генерация капчи
     const capA = 1 + Math.floor(Math.random() * 12);
     const capB = 1 + Math.floor(Math.random() * 12);
     const capExpiry = Date.now() + 5 * 60 * 1000;
     let capToken = '';
 
-    // Упрощенная генерация токена (SHA-256 хеш от строки)
     async function generateToken(a, b, expiry) {
       const data = `${a}:${b}:${Math.floor(expiry / 300000)}`;
       const msgBuffer = new TextEncoder().encode(data);
@@ -507,7 +510,7 @@ const TICKER = [
     const setErr = (field, on) => { if (field) field.closest('.field').classList.toggle('field--err', on); };
     const showErr = (msg) => { if (errEl) { errEl.textContent = msg; errEl.hidden = false; } };
     const hideErr = () => { if (errEl) errEl.hidden = true; };
-    
+
     const DUP_KEY = 'tklch_appeal_sent';
     const sentNicks = () => { try { return JSON.parse(localStorage.getItem(DUP_KEY) || '{}'); } catch (e) { return {}; } };
     const alreadySent = (n) => { const m = sentNicks(); const t = m[n.toLowerCase()]; return !!(t && (Date.now() - t < 2 * 3600 * 1000)); };
@@ -529,7 +532,7 @@ const TICKER = [
       const ageNum     = parseInt(age.value, 10);
       const ageOk      = !isNaN(ageNum) && ageNum >= 6 && ageNum <= 99;
       const capOk      = capInput && parseInt(capInput.value, 10) === capA + capB;
-      
+
       setErr(nick, !nickOk); setErr(about, !aboutOk); setErr(age, !ageOk);
 
       if (!nickOk || !aboutOk || !ageOk) { showErr('Проверь подсвеченные поля.'); return; }
@@ -607,66 +610,50 @@ const TICKER = [
     fetchDiscordStats();
     setInterval(fetchDiscordStats, 2 * 60 * 1000);
   }
-/* ===== огонёк курсора и spotlight — стоит в самом конце файла ===== */
-(function () {
-  var fine = window.matchMedia('(pointer:fine)').matches;
-  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!fine) return;
 
-  document.querySelectorAll('.feature,.step').forEach(function (el) {
-    el.addEventListener('mousemove', function (e) {
-      var r = el.getBoundingClientRect();
-      el.style.setProperty('--sx', (e.clientX - r.left) + 'px');
-      el.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+  /* spotlight на карточках (огонёк курсора убран) */
+  (function () {
+    if (!window.matchMedia('(pointer:fine)').matches) return;
+    document.querySelectorAll('.feature,.step').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--sx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+      });
     });
-  });
-
-  if (calm) return;
-  var glow = document.createElement('div');
-  glow.className = 'cursor-glow';
-  document.body.appendChild(glow);
-  var gx = innerWidth / 2, gy = innerHeight / 2, ax = gx, ay = gy, s = 1, ts = 1;
-  window.addEventListener('mousemove', function (e) { gx = e.clientX; gy = e.clientY; }, { passive: true });
-  document.addEventListener('mouseover', function (e) {
-    ts = e.target.closest('a,button,.feature,.step,.bento__item,.polaroid') ? 1.8 : 1;
-  });
-  (function loop() {
-    ax += (gx - ax) * .18; ay += (gy - ay) * .18; s += (ts - s) * .2;
-    glow.style.transform = 'translate(' + ax + 'px,' + ay + 'px) translate(-50%,-50%) scale(' + s + ')';
-    requestAnimationFrame(loop);
   })();
-})();
-/* проверка вайтлиста */
-(function () {
-  var W = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
-  var btn = document.getElementById('wlBtn');
-  var inp = document.getElementById('wlNick');
-  var res = document.getElementById('wlRes');
-  if (!btn || !inp || !res) return;
-  btn.addEventListener('click', async function () {
-    var nick = inp.value.trim();
-    if (!/^[a-zA-Z0-9_]{3,16}$/.test(nick)) {
-      res.hidden = false; res.className = 'wl-check__res no';
-      res.textContent = 'Введи корректный ник: латиница, цифры и _.';
-      return;
-    }
-    btn.disabled = true;
-    try {
-      var r = await fetch(W + '?check=' + encodeURIComponent(nick));
-      var j = await r.json();
-      res.hidden = false;
-      if (j && j.wl) {
-        res.className = 'wl-check__res ok';
-        res.textContent = '✅ ' + nick + ' в whitelist — заходи на сервер!';
-      } else {
-        res.className = 'wl-check__res no';
-        res.textContent = 'Пока нет. Заявки смотрят вручную — подожди немного.';
+
+  /* проверка вайтлиста */
+  (function () {
+    var W = 'https://frosty-bonus-8a1a.dvtasher1337.workers.dev';
+    var btn = document.getElementById('wlBtn');
+    var inp = document.getElementById('wlNick');
+    var res = document.getElementById('wlRes');
+    if (!btn || !inp || !res) return;
+    btn.addEventListener('click', async function () {
+      var nick = inp.value.trim();
+      if (!/^[a-zA-Z0-9_]{3,16}$/.test(nick)) {
+        res.hidden = false; res.className = 'wl-check__res no';
+        res.textContent = 'Введи корректный ник: латиница, цифры и _.';
+        return;
       }
-    } catch (e) {
-      res.hidden = false; res.className = 'wl-check__res no';
-      res.textContent = 'Не удалось проверить — попробуй позже.';
-    }
-    btn.disabled = false;
-  });
-})();
+      btn.disabled = true;
+      try {
+        var r = await fetch(W + '?check=' + encodeURIComponent(nick));
+        var j = await r.json();
+        res.hidden = false;
+        if (j && j.wl) {
+          res.className = 'wl-check__res ok';
+          res.textContent = '✅ ' + nick + ' в whitelist — заходи на сервер!';
+        } else {
+          res.className = 'wl-check__res no';
+          res.textContent = 'Пока нет. Заявки смотрят вручную — подожди немного.';
+        }
+      } catch (e) {
+        res.hidden = false; res.className = 'wl-check__res no';
+        res.textContent = 'Не удалось проверить — попробуй позже.';
+      }
+      btn.disabled = false;
+    });
+  })();
 })();

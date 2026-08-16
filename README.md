@@ -4,9 +4,9 @@
 
 # Project server
 
-**Сайт для сервера Minecraft 1.21.11**
+**Сайт для сервера Minecraft 26.1.2**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21.11-5b8c3a?style=for-the-badge&logo=minecraft&logoColor=white)](https://www.minecraft.net)
+[![Minecraft](https://img.shields.io/badge/Minecraft-26.1.2-5b8c3a?style=for-the-badge&logo=minecraft&logoColor=white)](https://www.minecraft.net)
 [![Loader](https://img.shields.io/badge/Loader-Fabric-d64545?style=for-the-badge)](https://fabricmc.net)
 [![Mode](https://img.shields.io/badge/Mode-PvE%20%C2%B7%20Vanilla+-8b5cf6?style=for-the-badge)](#)
 [![Status](https://img.shields.io/badge/Status-Online-22c55e?style=for-the-badge)](#)
